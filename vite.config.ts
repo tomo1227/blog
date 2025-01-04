@@ -13,6 +13,7 @@ import { defineConfig, UserConfig, SSRTarget } from "vite";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { transformerNotationDiff } from "@shikijs/transformers";
+import { transformerCopyButton } from "@rehype-pretty/transformers";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 const entry = "./app/server.ts";
 
@@ -24,7 +25,13 @@ export default defineConfig(({ mode }): UserConfig => {
       light: "everforest-light",
     },
     defaultLang: "plaintext",
-    transformers: [transformerNotationDiff()],
+    transformers: [
+      transformerNotationDiff(),
+      transformerCopyButton({
+        visibility: "always",
+        feedbackDuration: 3_000,
+      }),
+    ],
   };
 
   const commonConfig = {
