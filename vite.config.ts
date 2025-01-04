@@ -1,7 +1,6 @@
 import ssg from "@hono/vite-ssg";
 import mdx from "@mdx-js/rollup";
 import honox from "honox/vite";
-import client from "honox/vite/client";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeStringify from "rehype-stringify";
 import remarkFrontmatter from "remark-frontmatter";
@@ -18,12 +17,6 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 const entry = "./app/server.ts";
 
 export default defineConfig(({ mode }): UserConfig => {
-  if (mode === "client") {
-    return {
-      plugins: [client()],
-    };
-  }
-
   const highlightOptions = {
     // see: https://shiki.style/themes#themes
     theme: {
