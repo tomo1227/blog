@@ -14,7 +14,6 @@ import { defineConfig, UserConfig, SSRTarget } from "vite";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { transformerNotationDiff } from "@shikijs/transformers";
-// import Sitemap from "vite-plugin-sitemap";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 const entry = "./app/server.ts";
 
@@ -38,7 +37,15 @@ export default defineConfig(({ mode }): UserConfig => {
   const commonConfig = {
     plugins: [
       ssg({ entry }),
-      honox(),
+      honox({
+        client: {
+          input: [
+            "/app/assets/styles/tailwind.css",
+            // "/app/assets/theme.ts",
+            // "/app/assets/tocbot.ts",
+          ],
+        },
+      }),
       mdx({
         jsxImportSource: "hono/jsx",
         providerImportSource: "./app/components/feature/blogs/mdxComponents",
@@ -65,9 +72,6 @@ export default defineConfig(({ mode }): UserConfig => {
           [rehypePrettyCode, highlightOptions],
         ],
       }),
-      // Sitemap({
-      //   hostname: "https://pathy.jp/",
-      // }),
       viteStaticCopy({
         targets: [
           {
@@ -107,20 +111,6 @@ export default defineConfig(({ mode }): UserConfig => {
         assetsDir: "static",
         emptyOutDir: false,
         ssrEmitAssets: true,
-        rollupOptions: {
-          input: [
-            "/app/assets/styles/toc.css",
-            "/app/assets/styles/tailwind.css",
-            "/app/assets/theme.ts",
-            "/app/assets/tocbot.ts",
-          ],
-          output: {
-            entryFileNames: "static/assets/[name].js",
-            assetFileNames: () => {
-              return "static/assets/[name].[ext]";
-            },
-          },
-        },
       },
     };
   }
