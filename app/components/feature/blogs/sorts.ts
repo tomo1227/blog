@@ -55,7 +55,9 @@ export const getTotalPages = (pageSize: number = 10) => {
 export const getTags = () => {
   const posts = getPosts();
   const tags = posts.flatMap((post) => post.frontmatter.tags || []);
-  const uniqueTags = [...new Set(tags)];
+  const uniqueTags = [...new Set(tags)].sort((a, b) =>
+    a.localeCompare(b, "ja")
+  );
 
   return uniqueTags;
 };
