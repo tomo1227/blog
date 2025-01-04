@@ -34,8 +34,8 @@ export default defineConfig(({ mode }): UserConfig => {
         client: {
           input: [
             "/app/assets/styles/tailwind.css",
-            // "/app/assets/theme.ts",
-            // "/app/assets/tocbot.ts",
+            "/app/assets/theme.ts",
+            "/app/assets/tocbot.ts",
           ],
         },
       }),
