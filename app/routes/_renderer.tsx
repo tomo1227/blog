@@ -1,6 +1,6 @@
 import { Style } from "hono/css";
 import { jsxRenderer, useRequestContext } from "hono/jsx-renderer";
-import { Script } from "honox/server";
+import { Link, Script } from "honox/server";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import ThemeButton from "../islands/ThemeButton";
@@ -45,18 +45,15 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
         />
         <link rel="canonical" href={currentUrl} />
         {<title>{frontmatter?.title ?? "Tomoki Ota's Blog"}</title>}
-        {import.meta.env.PROD ? (
+        {/* {import.meta.env.PROD ? (
           <script src="/static/assets/theme.js" />
         ) : (
           <script src="/app/assets/theme.ts" />
-        )}
+        )} */}
+        <Script src="/app/assets/theme.ts" />
         <Script src="/app/client.ts" />
         <Style />
-        {import.meta.env.PROD ? (
-          <link href="/static/assets/tailwind.css" rel="stylesheet" />
-        ) : (
-          <link href="/app/assets/styles/tailwind.css" rel="stylesheet" />
-        )}
+        <Link href="/app/assets/styles/tailwind.css" rel="stylesheet" />
         <link rel="icon" href="/static/assets/favicon.ico" />
         <link rel="apple-touch-icon" href="/static/assets/apple-touch-icon.png" />
         <link rel="manifest" href="/static/assets/site.webmanifest" />
@@ -92,11 +89,12 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
         </div>
         <Footer />
       </body>
-      {import.meta.env.PROD ? (
+      {/* {import.meta.env.PROD ? (
         <script type="module" src="/static/assets/tocbot.js" />
       ) : (
         <script type="module" src="/app/assets/tocbot.ts" />
-      )}
+      )} */}
+      <Script src="/app/assets/tocbot.ts" />
     </html>
   );
 });
