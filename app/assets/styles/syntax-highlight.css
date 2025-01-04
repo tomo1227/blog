@@ -7,7 +7,7 @@ code {
 }
 
 pre > code {
-  @apply !leading-5;
+  @apply !leading-5 max-md:!leading-4;
   counter-reset: line;
 }
 

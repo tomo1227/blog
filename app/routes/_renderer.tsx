@@ -85,7 +85,7 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
         </Header>
         <div id="main-contents" class="flex flex-row">
           <SideBar tags={tags}></SideBar>
-          <main class="max-w-[780px] w-screen px-6 mt-6 flex-grow">
+          <main id="main-body" class="max-w-[780px] w-screen px-6 mt-6 flex-grow">
             <div id="toc"></div>
             <article>{children}</article>
           </main>

@@ -16,6 +16,10 @@ body {
 }
 
 @media screen and (max-width: 1170px) {
+  #main-body{
+    @apply m-0;
+  }
+  
   #main-contents {
     @apply flex-col;
   }
