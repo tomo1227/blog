@@ -5,6 +5,7 @@ import { BlogCard } from "./blogCard";
 import { Accordion } from "./accordion";
 import { Note } from "./note";
 import { Warn } from "./warn";
+import { JSXNode } from "hono/jsx";
 
 export function useMDXComponents(): MDXComponents {
   const components = {
@@ -14,6 +15,11 @@ export function useMDXComponents(): MDXComponents {
     Accordion: Accordion,
     Warn: Warn,
     Note: Note,
+    table: ({ children }: JSXNode) => (
+      <div class="table-wrapper">
+        <table style="min-width: 700px;">{children}</table>
+      </div>
+    ),
   };
   return components;
 }

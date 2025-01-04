@@ -139,18 +139,6 @@ html.dark .markdown pre[data-theme*="material-theme-palenight"] {
   @apply text-xs inline-block rounded border px-1 py-5 align-middle font-normal font-mono shadow;
 }
 
-.markdown table {
-  @apply text-base border-gray-600;
-}
-
-.markdown th {
-  @apply border py-1 px-3;
-}
-
-.markdown td {
-  @apply border py-1 px-3;
-}
-
 /* Override pygments style background color. */
 .markdown .highlight pre {
   @apply bg-gray-100 !important;
@@ -237,16 +225,24 @@ html.dark .markdown .warn svg path {
 }
 
 /* テーブル */
+.table-wrapper {
+  overflow-x: hidden;
+}
+
+.table-wrapper.scrollable {
+  overflow-x: auto;
+}
 .markdown table {
-  @apply w-full border-collapse overflow-hidden rounded-sm max-md:text-xs;
+  @apply text-sm border-gray-600 w-full border-collapse overflow-hidden rounded-sm max-md:text-xs;
+  min-width: 700px;
 }
 
 .markdown th {
-  @apply px-4 py-2 bg-indigo-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100;
+  @apply border px-1 py-2 bg-indigo-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100 max-md:px-1;
 }
 
 .markdown td {
-  @apply px-4 py-2 border-t border-indigo-300 text-gray-700 dark:border-gray-600 dark:text-gray-200;
+  @apply border px-1 py-2 border-t border-indigo-300 text-gray-700 dark:border-gray-600 dark:text-gray-200 max-md:px-1;
 }
 
 .markdown tbody tr:nth-child(even) {
