@@ -16,7 +16,7 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
   const twitterCardPath = title ? `static/assets/img/twitterCard/${entryName}.png` : "static/assets/img/twitterCard/twitterCard.png";
   const currentPath = useRequestContext().req.path;
   const baseUrl = "https://pathy.jp";
-  const currentUrl = baseUrl + (currentPath.endsWith('/') ? currentPath : currentPath + '/');
+  const currentUrl = baseUrl + currentPath;
 
   return (
     <html lang="ja">
@@ -45,11 +45,6 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
         />
         <link rel="canonical" href={currentUrl} />
         {<title>{frontmatter?.title ?? "Tomoki Ota's Blog"}</title>}
-        {/* {import.meta.env.PROD ? (
-          <script src="/static/assets/theme.js" />
-        ) : (
-          <script src="/app/assets/theme.ts" />
-        )} */}
         <Script src="/app/assets/theme.ts" />
         <Script src="/app/client.ts" />
         <Style />
@@ -75,7 +70,6 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
           `,
         }}
       />
-
       <body class="flex flex-col items-center mb-2 bg-[#fbf9f2] dark:bg-zinc-800 mx-2 min-h-screen">
         <Header>
           <ThemeButton />
