@@ -76,7 +76,7 @@ pub trait Default: Sized {
 
 以下のようにenumでも使用できる
 
-```rust
+```rust showLineNumbers
 #[derive(Debug)]
 #[allow(dead_code)]
 struct User {
@@ -99,7 +99,9 @@ fn main() {
 }
 ```
 
-```rust
+他にもStringや&strでもDefaultトレイトを持っているので、使用することができる。
+
+```rust showLineNumbers
 fn main() {
     let s = String::default();
     println!("{}", s);
