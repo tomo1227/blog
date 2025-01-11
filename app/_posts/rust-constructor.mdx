@@ -1,0 +1,174 @@
+---
+title: 【Rust】コンストラクタ
+createdDate: 2025-01-09T11:33:18.596Z
+description: Rustにおけるコンストラクタについて説明します。
+tags:
+  - Rust
+iconUrl: https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Cat%20with%20wry%20smile/Flat/cat_with_wry_smile_flat.svg
+---
+
+## goとrustのコンストラクタ
+
+Goではコンストラクタがないので、NewXXXというファクトリ関数を作って初期化します。
+
+```go showLineNumbers
+type User struct {
+    Name string
+    Age  int
+}
+
+func NewUser(name string, age int) User {
+    return User{
+        Name: name,
+        Age:  age,
+    }
+}
+
+func main() {
+    user := NewUser("太郎", 20)
+    fmt.Println(user)
+}
+```
+
+RustではGoと同じく組み込みのコンストラクタが存在しないので、Go同様ファクトリ関数でコンストラクタを実装することができる。
+
+```rust showLineNumbers
+#[derive(Debug)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+impl User {
+    fn new(name: &str, age: u32) -> Self {
+        User {
+            name: name.to_string(),
+            age,
+        }
+    }
+}
+
+fn main() {
+    let user = User::new("太郎", 20);
+    println!("{:?}", user); // User { name: "太郎", age: 20 }
+}
+```
+
+`# [derive(Debug)]`については https://qiita.com/tarou-imokenpi/items/2a606badb6cdf959a1e1 を参考にしてください。
+
+## ビルトインコンストラクタ
+
+RustにはC++と異なって`Copy`、`Default`、`Assignment`、`Move`などのようなビルトインコンストラクタの機能はない。
+
+Defaultコンストラスタに関しては、`Default`トレイトが同等の機能を提供している。しかし、このトレイトを使用するのは驚くほどレアである。なぜなら、 変数は暗黙には初期化されないからである。 `Default` は、 一般的にジェネリックプログラミングでのみ有効。
+
+## Default trait
+
+<BlogCard url="https://doc.rust-lang.org/std/default/trait.Default.html" />
+
+Defaultトレイトは`default()`を持つ。
+
+```rust title="Defaultトレイト"
+pub trait Default: Sized {
+    fn default() -> Self;
+}
+```
+
+以下のようにenumでも使用できる
+
+```rust
+#[derive(Debug)]
+#[allow(dead_code)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+impl Default for User {
+    fn default() -> Self {
+        Self {
+            name: String::from("Anonymous"),
+            age: 0,
+        }
+    }
+}
+
+fn main() {
+    let user: User = Default::default();
+    println!("{:?}", user);
+}
+```
+
+```rust
+fn main() {
+    let s = String::default();
+    println!("{}", s);
+
+    let int = i32::default();
+    println!("{}", int); // 0
+
+    let str: &str = Default::default();
+    println!("{}", str); 
+}
+```
+
+## Defaultマクロ
+
+Defaultマクロを用いると、手動でDefault トレイトを実装しなくても、型に対して自動的にDefaultトレイトの実装を生成してくれる。
+
+```rust
+#[derive(Default)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+fn main(){
+    let user : User = Default::default(); 
+    println!("{:?}", user); // User { name: "", age: 0 }
+}
+```
+
+再帰的に使うことも可能。
+
+```rust showLineNumbers
+#[derive(Debug, Default)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+#[derive(Debug, Default)]
+struct Family {
+    mother: User,
+    father: User,
+    child: User,
+}
+
+fn main() {
+    let family: Family = Default::default();
+    println!("{:?}", family);
+}
+```
+
+実行すると以下のようになる。
+
+```txt:実行結果
+Family { mother: User { name: "", age: 0 }, father: User { name: "", age: 0 }, child: User { name: "", age: 0 } }
+```
+
+また、enumの場合は以下のようになる。
+
+```rust
+#[derive(Default)]
+enum Kind {
+    #[default]
+    A,
+    B,
+    C,
+}
+```
+
+## 参考文献
+
+1. [コンストラクタ](https://doc.rust-jp.rs/rust-nomicon-ja/constructors.html)
