@@ -42,13 +42,13 @@ const throttledSendRequest = _.throttle(sendRequest, 1000);
 
 ### サーバサイドでの実装
 
-![サーバサイドの設定例](../../public/static/assets/img/posts/rate-limitter/img.png)
+![サーバサイドの設定例](../../public/static/assets/img/posts/rate-limiter/img.png)
 
 サーバサイド側で実装した場合、アルゴリズムは完全に制御でき、技術スタックなども有効なものを使用することができるが、レートリミッターを独自に構築することはコストがかかります。
 
 ### ミドルウェアで実装
 
-![ミドルウェアのレートリミッター](../../public/static/assets/img/posts/rate-limitter/img-1.png)
+![ミドルウェアのレートリミッター](../../public/static/assets/img/posts/rate-limiter/img-1.png)
 
 ミドルウェアでレートリミッターを実装すると、リクエストをスロットリングし、ステータスコード429のレスポンスを返します。
 429のステータスコードはユーザが多すぎるリクエストを送信したことを表します。
@@ -69,7 +69,7 @@ const throttledSendRequest = _.throttle(sendRequest, 1000);
 
 リーキーバケットアルゴリズムは、穴あきバケツとも呼ばれ、トークンバケットと似ているが、リクエストの処理速度が一手であり、バケットがFIFO(先入れ先出し)のキューで実装される。Shopifyなどがレート制限に使用している。
 
-![leaky bucket](../../public/static/assets/img/posts/rate-limitter/img-4.png)
+![leaky bucket](../../public/static/assets/img/posts/rate-limiter/img-4.png)
 
 リーキーバケットアルゴリズムでは、以下2つのパラメータを取る。
 
@@ -93,7 +93,7 @@ const throttledSendRequest = _.throttle(sendRequest, 1000);
 
 以下の例では、容量4のトークンバケットがあり、そこに1秒に2個のトークンが定期的に入れられる。バケットがいっぱいだと、余分なトークンは溢れる。
 
-![token bucket](../../public/static/assets/img/posts/rate-limitter/img-2.png)
+![token bucket](../../public/static/assets/img/posts/rate-limiter/img-2.png)
 
 上記のようなトークンバケットの仕組みを用いて、リクエストを捌いていく。
 
@@ -101,7 +101,7 @@ const throttledSendRequest = _.throttle(sendRequest, 1000);
 1. トークンがバケット内に残っていれば、トラフィックを通す(1リクエストにつき1トークン)
 1. トークンがバケット内に残っていなければ、トラフィックを破棄する(キューに入れてもよい)
 
-![token bucket algorithm](../../public/static/assets/img/posts/rate-limitter/img-3.png)
+![token bucket algorithm](../../public/static/assets/img/posts/rate-limiter/img-3.png)
 
 トークンバケットアルゴリズムでは以下2つのパラメータを取る。
 
@@ -128,7 +128,7 @@ const throttledSendRequest = _.throttle(sendRequest, 1000);
 1. 各リクエストはカウンタを1つずつ増加させる
 1. カウンタが事前に定義された閾値に達すると、新しいタイムウィンドウが始まる間で新しいリクエストは新しいタイムウィンドウが始まるまで落とされる
 
-![fixed window counters](../../public/static/assets/img/posts/rate-limitter/img-5.png)
+![fixed window counters](../../public/static/assets/img/posts/rate-limiter/img-5.png)
 
 このアルゴリズムのメリットは以下のようになっている。
 
@@ -170,4 +170,4 @@ const throttledSendRequest = _.throttle(sendRequest, 1000);
 * INCR :　格納されたカウンタを1だけ増加
 * EXPIRE : カウンタにタイムアウトを設定する。タイムアウトが終了するとカウンタは自動的に削除する
 
-![redis architecture](../../public/static/assets/img/posts/rate-limitter/img-6.png)
+![redis architecture](../../public/static/assets/img/posts/rate-limiter/img-6.png)
