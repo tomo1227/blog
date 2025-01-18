@@ -13,6 +13,12 @@
       <priority>0.8</priority>
     </url>
     <url>
+      <loc>https://pathy.jp/posts/rust-constructor</loc>
+      <lastmod>2025-01-18</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+    <url>
       <loc>https://pathy.jp/posts/go-scheduling</loc>
       <lastmod>2025-01-18</lastmod>
       <changefreq>weekly</changefreq>
