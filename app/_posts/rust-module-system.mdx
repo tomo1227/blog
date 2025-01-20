@@ -1,0 +1,265 @@
+---
+title: 【Rust】モジュールシステム
+createdDate: 2025-01-20T10:17:45.730Z
+description: Rustのモジュールシステムについて解説します。
+tags:
+  - Rust
+iconUrl: https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/See-no-evil%20monkey/Flat/see-no-evil_monkey_flat.svg
+---
+
+## Rustのモジュールシステム
+
+Rustではパブリック関数には **pub** をつけます。
+
+```rust title="greet.rs"
+pub fn hello() {
+    println!("hello!");
+}
+```
+
+**pub** をつけることで他のファイルでインポートすることが可能となります。
+
+```rust title="main.rs"
+mod greet;
+fn main() {
+  greet::hello();
+}
+```
+
+これは以下のように1つで書いたものと同じです。
+
+```rust title="main.rs"
+fn main() {
+    greet::hello();
+}
+
+mod greet {
+    pub fn hello() {
+        println!("Hello");
+    }
+}
+```
+
+これはgreetがサブモジュールであることを意味しています。
+また、以下のように **use** を使うと省略してインポートすることが可能です。
+
+```rust title="main.rs"
+use greet::hello; // [!code ++]
+mod greet;
+
+fn main() {
+  hello();
+}
+```
+
+## サブモジュール
+
+さて先ほどmainからgreetをインポートした際に、greetがサブモジュールとみなされていると説明しました。
+
+さて、以下のように3つのファイルになったらどうなるでしょう。
+
+```rust title="greet.rs"
+pub fn hello() {
+    println!("hello!");
+}
+```
+
+```rust title="user.rs"
+mod greet;
+pub fn say() {
+    greet::hello()
+}
+```
+
+```rust title="main.rs"
+mod user;
+fn main() {
+    user::say();
+}
+```
+
+実行すると`file not found for module greet` とコンパイルエラーとなります。
+これは、userがmainのサブモジュール、greetがuserのサブモジュールとみなされているためです。わかりやすく1つのファイルで書いてみます。
+
+```rust title="main.rs"
+fn main() {
+    user::say();
+}
+
+mod user {
+    pub fn say() {
+        greet::hello()
+    }
+    mod greet {
+        pub fn hello() {
+            println!("Hello");
+        }
+    }
+}
+```
+
+ではどう修正すれば良いでしょうか？やり方は簡単に2つあります。
+
+1. 先ほどの1つのファイルのようにgreet.rsをuserのサブモジュールにしてあげる
+1. greetもmainのサブモジュールにしてあげる
+
+### サブモジュールを入れ子にする
+
+```rust title="main.rs"
+fn main() {
+    user::say();
+}
+
+mod user {
+    pub fn say() {
+        greet::hello()
+    }
+    mod greet {
+        pub fn hello() {
+            println!("Hello");
+        }
+    }
+}
+```
+
+これのようにサブモジュールが入れ子になるようにしてディレクトリ構想を変更します。
+
+```shellsession
+.
+├── main.rs
+├── user
+│   └── greet.rs // userのサブモジュール
+└── user.rs
+```
+
+`greet.rs`の場所が変わるだけで、中身は変わりません。
+
+```rust title="user/greet.rs"
+pub fn hello() {
+    println!("hello!");
+}
+```
+
+また、これは以下のようにも書けます。
+
+```shellsession
+.
+├── main.rs
+├── user
+│   └── greet
+│       └── mod.rs
+└── user.rs
+```
+
+フロントのディレクトリベースルーティング(e.g. page router)とファイルベースルーティング(e.g. App router)の違いに少し似ています。Next.jsでは後者の方が推奨されていますが、Rustではディレクトリベースの方が**2018 edition**で導入されて推奨されています。ファイルベースは**2015 edition**となります。
+
+### サブモジュールを作成せずにimportする
+
+`crate::`もしくは`super`使用することでサブモジュールからサブモジュールを呼び出すことができます。superは直近の親からの相対パスで、crateを使用した場合はプロジェクトのルートからの絶対パスとなります。
+
+```rust title="main.rs" /crate::/#r
+fn main() {
+    user::say();
+}
+
+mod user {
+    pub fn say() {
+        crate::greet::hello()
+    }
+}
+
+mod greet {
+    pub fn hello() {
+        println!("Hello");
+    }
+}
+```
+
+これをファイルで分けて書くと、以下のようになります。
+
+```rust title="main.rs"
+mod greet;
+mod user;
+
+fn main() {
+    user::say();
+}
+```
+
+```rust title="user.rs"
+pub fn say() {
+    crate::greet::hello()
+}
+```
+
+```rust title="greet.rs"
+pub fn hello() {
+    println!("Hello");
+}
+```
+
+## lib.rs
+
+先ほどの[サブモジュールを作成せずにimportする](#サブモジュールを作成せずにimportする)で、さらにモジュールが増えたらどうなるでしょうか。
+
+```rust
+mod foo;
+mod foo2;
+mod foo3;
+// ・・・
+
+fn main() {
+    foo::hoge();
+}
+```
+
+上記のように`main.rs`でのインポートが増えてしまいます。
+そこでRustでは`lib.rs`なるものを作成して、そこにインポートをまとめることが一般的となっております。
+
+```rust title="main.rs"
+fn main() {
+    app::user::say();
+}
+```
+
+```rust title="greet.rs"
+pub fn hello() {
+    println!("Hello");
+}
+```
+
+```rust title="user.rs"
+pub fn say() {
+    crate::greet::hello()
+}
+```
+
+```rust title="lib.rs"
+mod greet;
+pub mod user;
+```
+
+また、先ほどの`main.rs`は以下のように書けます。
+
+```rust title="main.rs"
+use app::user::say;
+fn main() {
+    say();
+}
+```
+
+また、useを`main.rs`で使いたくない場合は`lib.rs`にuseを書くこともできます。
+
+```rust title="lib.rs"
+pub use crate::user::say;
+mod greet;
+mod user;
+```
+
+`lib.rs`にuseを書いた場合は、`main.rs`は以下のように変更します。
+
+```rust title="main.rs"
+fn main() {
+    app::say();
+}
+```
