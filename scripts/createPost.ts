@@ -59,4 +59,4 @@ iconUrl: https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/
 
 await promises.writeFile(`./app/_posts/${filename}.mdx`, frontMatter);
 
-await $`echo _posts/${filename}.mdx is created.`;
+await $`echo _posts/${filename}.mdx is created. https://fluent-ui.julienc.me/ からアイコンを選択してください。`;
