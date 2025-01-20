@@ -28,6 +28,7 @@
         "mhutchie.git-graph",
         "eamodio.gitlens",
         "seatonjiang.gitmoji-vscode",
+        "GitHub.copilot",
         // markdown
         "yzhang.markdown-all-in-one",
         "DavidAnson.vscode-markdownlint",
