@@ -192,7 +192,7 @@ pub fn say() {
 }
 ```
 
-```rust title="user.rs"
+```rust title="greet.rs"
 pub fn hello() {
     println!("Hello");
 }
@@ -215,3 +215,51 @@ fn main() {
 
 上記のように`main.rs`でのインポートが増えてしまいます。
 そこでRustでは`lib.rs`なるものを作成して、そこにインポートをまとめることが一般的となっております。
+
+```rust title="main.rs"
+fn main() {
+    app::user::say();
+}
+```
+
+```rust title="greet.rs"
+pub fn hello() {
+    println!("Hello");
+}
+```
+
+```rust title="user.rs"
+pub fn say() {
+    crate::greet::hello()
+}
+```
+
+```rust title="lib.rs"
+mod greet;
+pub mod user;
+```
+
+また、先ほどの`main.rs`は以下のように書けます。
+
+```rust title="main.rs"
+use app::user::say;
+fn main() {
+    say();
+}
+```
+
+また、useを`main.rs`で使いたくない場合は`lib.rs`にuseを書くこともできます。
+
+```rust title="lib.rs"
+pub use crate::user::say;
+mod greet;
+mod user;
+```
+
+`lib.rs`にuseを書いた場合は、`main.rs`は以下のように変更します。
+
+```rust title="main.rs"
+fn main() {
+    app::say();
+}
+```
