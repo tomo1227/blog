@@ -144,14 +144,6 @@ html.dark .markdown pre[data-theme*="material-theme-palenight"] {
   @apply bg-gray-100 !important;
 }
 
-.markdown .accordion-header {
-  @apply p-2
-}
-
-.markdown .accordion-header:hover {
-  @apply text-fuchsia-300
-}
-
 .source {
   @apply text-right italic;
 }

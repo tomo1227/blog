@@ -1,0 +1,24 @@
+.markdown .accordion {
+    @apply border-2 border-gray-700 dark:border-gray-300 rounded-lg overflow-hidden;
+}
+
+.markdown .accordion-header {
+    @apply p-2 bg-gray-300 dark:bg-gray-700 cursor-pointer;
+    border-bottom: none; /* デフォルトではボーダーなし */
+}
+
+.markdown .accordion[open] .accordion-header {
+    @apply border-b-2 border-gray-700 bg-gray-300 dark:border-gray-300 dark:bg-gray-700;
+}
+
+.markdown .accordion-content {
+    @apply p-2 bg-gray-200 dark:bg-slate-800;
+}
+
+.markdown .accordion-header {
+    @apply p-2
+}
+
+.markdown .accordion-header:hover {
+@apply text-fuchsia-700 dark:text-fuchsia-300
+}
