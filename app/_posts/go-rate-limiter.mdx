@@ -24,9 +24,9 @@ $ echo "GET http://127.0.0.1:8080/" | vegeta attack -rate=5 -duration=1s | tee r
 ta report
 ```
 
-## fiberのレートリミッタの例
+## フレームワークの実装例
 
-fiberで30秒ごとの最大5リクエストのレートリミッターを導入してみる。
+ここではGoのフレームワークのfiberで30秒ごとの最大5リクエストのレートリミッターを導入してみます。
 
 ```go
 func main() {
@@ -136,7 +136,23 @@ Configの`LimiterMiddleware`というフィールドでレートリミッタの�
 
 [Sliding Window](https://pkg.go.dev/github.com/gofiber/fiber/v2@v2.52.6/middleware/limiter#SlidingWindow)が指定できる。[スライディングウィンドウログアルゴリズム](https://pathy.jp/posts/rate-limiter#%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0)
 
-## 固定ウィンドウカウンタ
+```go
+app.Use(limiter.New(limiter.Config{
+    LimiterMiddleware: limiter.SlidingWindow{},
+}))
+```
+
+以下のようにすると、IPアドレスごとにレートリミットを適応することができる。
+
+```go
+app.Use(limiter.New(limiter.Config{
+      KeyGenerator: func(c *fiber.Ctx) string {
+      return c.IP()
+  },
+}))
+```
+
+### 固定ウィンドウカウンタ
 
 <Accordion title="fiberの固定ウィンドウカウンタの実装">
 
@@ -251,7 +267,7 @@ func (FixedWindow) New(cfg Config) fiber.Handler {
 
 </Accordion>
 
-<Accordion title="読みやすくした固定ウィンドウカウンタの実装">
+<Accordion title="読みやすくした固定ウィンドウカウンタの実装(gptなので動作未検証)">
 
 ```go
 package limiter
@@ -351,3 +367,69 @@ func (FixedWindow) New(cfg Config) fiber.Handler {
 ```
 
 </Accordion>
+
+## フレームワークを使わずに実装する
+
+ここでは練習のためフレームワークを使わずに標準ライブラリだけで実装していきます。
+簡単のためリーキーバケットアルゴリズムで実装していきます。
+
+```go
+type LeakyBucket struct {
+    capacity  int
+    rate      time.Duration
+    water     int
+    lastCheck time.Time
+    mu        sync.Mutex
+}
+
+func NewLeakyBucket(capacity int, rate time.Duration) *LeakyBucket {
+    return &LeakyBucket{
+        capacity:  capacity,
+        rate:      rate,
+        lastCheck: time.Now(),
+    }
+}
+
+func (b *LeakyBucket) Allow() bool {
+    b.mu.Lock()
+    defer b.mu.Unlock()
+
+    now := time.Now()
+    elapsed := now.Sub(b.lastCheck)
+    b.lastCheck = now
+
+    leakAmount := int(elapsed / b.rate)
+    if leakAmount > 0 {
+        b.water -= leakAmount
+        if b.water < 0 {
+            b.water = 0
+        }
+    }
+
+    if b.water < b.capacity {
+        b.water++
+        return true
+    }
+    return false
+}
+
+var bucket = NewLeakyBucket(1, time.Second)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    if !bucket.Allow() {
+        http.Error(w, "Too Many Requests", http.StatusTooManyRequests)
+        return
+    }
+    fmt.Fprintf(w, "Hello, World!")
+}
+
+func main() {
+    serverAddr := "0.0.0.0:8080"
+    http.HandleFunc("/", handler)
+    fmt.Println("Starting server on", serverAddr)
+    err := http.ListenAndServe(serverAddr, nil)
+    if err != nil {
+        fmt.Println("Error starting server:", err)
+    }
+}
+```
