@@ -233,3 +233,17 @@ html.dark .markdown .warn svg path {
 .markdown tbody tr:nth-child(odd) {
   @apply bg-white dark:bg-gray-900;
 }
+
+.markdown pre::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.markdown pre::-webkit-scrollbar-thumb {
+  @apply bg-black bg-opacity-30 rounded-xl dark:bg-opacity-50;
+}
+
+
+.markdown pre::-webkit-scrollbar-track {
+  @apply bg-black bg-opacity-10;
+}
