@@ -2,170 +2,200 @@
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
       <loc>https://pathy.jp/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>daily</changefreq>
       <priority>1.0</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/go-scheduling/</loc>
-      <lastmod>2024-01-03</lastmod>
+      <loc>https://pathy.jp/posts/rust-fmt</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/rehype-pretty-code/</loc>
-      <lastmod>2024-01-03</lastmod>
+      <loc>https://pathy.jp/posts/go-rate-limiter</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/go-concurrent/</loc>
-      <lastmod>2024-01-03</lastmod>
+      <loc>https://pathy.jp/posts/rust-module-system</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/shadcn/</loc>
-      <lastmod>2024-01-03</lastmod>
+      <loc>https://pathy.jp/posts/rate-limiter</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/aws-sso-login/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/rust-constructor</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/vite-copy-file/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/go-scheduling</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/bun-shell-for-mdx/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/rehype-pretty-code</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/measure-architecture-characteristics/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/go-concurrent</loc>
+      <lastmod>2025-02-02</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+    <url>
+      <loc>https://pathy.jp/posts/shadcn</loc>
+      <lastmod>2025-02-02</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+    <url>
+      <loc>https://pathy.jp/posts/aws-sso-login</loc>
+      <lastmod>2025-02-02</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+    <url>
+      <loc>https://pathy.jp/posts/vite-copy-file</loc>
+      <lastmod>2025-02-02</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+    <url>
+      <loc>https://pathy.jp/posts/bun-shell-for-mdx</loc>
+      <lastmod>2025-02-02</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+    <url>
+      <loc>https://pathy.jp/posts/measure-architecture-characteristics</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
 
     <url>
       <loc>https://pathy.jp/posts/architecture-characteristics/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/rust-errorhandlling/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/rust-errorhandlling</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/go-generic-type-aliases/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/go-generic-type-aliases</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/go-panic/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/go-panic</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/go-panic/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/go-panic</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/linguistic-approach-to-writing-effective-comments/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/linguistic-approach-to-writing-effective-comments</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/closure/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/closure</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/hello/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/hello</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/posts/hello/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/posts/hello</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/Bun/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/Bun</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/Vite/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/Vite</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/Honox/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/Honox</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/フロント/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/フロント</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/アーキテクチャ/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/アーキテクチャ</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/Rust/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/Rust</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/バックエンド/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/バックエンド</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/Go/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/Go</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/Coding/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/Coding</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
     <url>
-      <loc>https://pathy.jp/tags/News/</loc>
-      <lastmod>2024-12-29</lastmod>
+      <loc>https://pathy.jp/tags/News</loc>
+      <lastmod>2025-02-02</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
     </url>
