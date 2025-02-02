@@ -159,26 +159,17 @@ html.dark .markdown pre[data-theme*="material-theme-palenight"] {
 
 /* Note記法 */
 .markdown .note {
-  @apply flex items-start p-2 rounded-[20px] my-2;
+  @apply p-2 rounded-[20px] my-2;
 }
 
 .markdown .note svg {
   margin-right: 10px;
   flex-shrink: 0;
-  padding-top: 4px;
 }
 
-.markdown .note-content {
+.note-title {
   display: flex;
-  flex-direction: column;
-}
-
-.markdown .note-content p {
-  margin: 0;
-}
-
-.markdown .note-content strong {
-  padding-left: 5px;
+  align-items: center;
 }
 
 /* Note(Info) */
