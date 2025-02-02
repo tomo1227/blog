@@ -1,0 +1,336 @@
+---
+title: 【Rust】std::fmt
+createdDate: 2025-02-02T13:10:10.892Z
+description: Rustのstd::fmtのマクロであるprint!やwrite!、トレイトのdebugやdisplayなどについて解説します。
+tags:
+  - Rust
+iconUrl: https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Hear-no-evil%20monkey/Flat/hear-no-evil_monkey_flat.svg
+---
+
+## はじめに
+
+この記事では、[std::fmt](https://doc.rust-lang.org/std/fmt/)について解説します。まず、[std::fmt]に実装されている`print!`や`write!`などの標準出力/入力に関わる[マクロ](#マクロ)について説明します。その後、[トレイト](#トレイト)についても詳しく掘り下げていきます。
+
+## マクロ
+
+println!などは[std::fmt](https://doc.rust-lang.org/std/fmt/)のマクロである。
+println!やwriteln!は、printやwriteに改行を加えただけなので飛ばします。また、eprintなどもprint!、write!を理解できれば、あとは標準エラー出力 (stderr)になるだけなので説明を省きます。
+
+### print
+
+```rust
+macro_rules! print {
+    ($($arg:tt)*) => {{
+        $crate::io::_print($crate::format_args!($($arg)*));
+    }};
+}
+```
+
+これらは`format_args!`というマクロを介してプロクシされる。`print!`などの派生マクロとは異なり、ヒープ割り当てを回避する`core::fmt`に定義されたマクロである。`format_args!`自体は文字列を返すのではなく、`fmt::Arguments`を返す。そして`std::io::_print();`に渡して、文字列に変換し標準出力する。
+
+### write
+
+write!でも`formta_args!()`で`fmt::Argumetns`を返し、`write_fmt()`というメソッドに渡している。
+
+```rust
+macro_rules! write {
+    ($dst:expr, $($arg:tt)*) => {
+        $dst.write_fmt($crate::format_args!($($arg)*))
+    };
+}
+```
+
+`write_fmt()`はcore::fmtの[Write](#writeトレイト)というトレイトのメソッドである。
+
+## fmt::Arguments
+
+core:fmtには[fmt::Arguments](std::fmt::Arguments)が実装されている。実装は以下のようになっている。
+
+```rust
+pub struct Arguments<'a> { 
+    pieces: &'a [&'static str],
+    fmt: Option<&'a [rt::Placeholder]>,
+    args: &'a [rt::Argument<'a>],
+}
+```
+
+<Note title="ライフタイム">
+`Arguments<'a>`の`<'a>`はライフタイムと呼ばれる。Arguments 構造体が内部にライフタイム`'a`に関連する参照を保持していることを示している。この構造体のデータはライフタイム`'a`が有効な間だけ使うことができる。
+</Note>
+
+## トレイト
+
+`fmt::core`のトレイトで重要なトレイトが3つある。
+
+### Displayトレイト
+
+```rust
+pub trait Display {
+    #[doc = include_str!("fmt_trait_method_doc.md")]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result;
+}
+```
+
+`fmt::Arguments`は`Display`の振る舞いを実装している。
+
+```rust
+#[stable(feature = "rust1", since = "1.0.0")]
+impl Debug for Arguments<'_> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result {
+        Display::fmt(self, fmt)
+    }
+}
+
+#[stable(feature = "rust1", since = "1.0.0")]
+impl Display for Arguments<'_> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result {
+        write(fmt.buf, *self)
+    }
+}
+```
+
+fmtメソッドを実装して、Displayトレイトを満たしていれば、println!でコンパイラはDisplayトレイトを実装しているか確認します。
+
+```rust
+use std::fmt;
+
+struct Person {
+    name: String,
+    age: u8,
+}
+
+impl fmt::Display for Person {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Name: {}, age: {}", self.name, self.age)
+    }
+}
+
+fn main() {
+    let person = Person {
+        name: String::from("Taro"),
+        age: 20,
+    };
+    println!("{}", person); // Name: Taro, age: 20
+}
+```
+
+もちろんDisplayトレイトを実装していなければ、コンパイルエラーとなります。
+
+```rust
+struct Person {
+    name: String,
+    age: u8,
+}
+
+fn main() {
+    let person = Person {
+        name: String::from("Taro"),
+        age: 20,
+    };
+    println!("{}", person); // コンパイルエラー:`Person` doesn't implement `std::fmt::Display`
+}```
+
+### Debugトレイト
+
+Debugトレイトの実装は以下のようになっています。
+
+```rust
+pub trait Debug {
+    #[doc = include_str!("fmt_trait_method_doc.md")]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result;
+}
+```
+
+fmtメソッドを実装して、Debugトレイトを満たしていれば、println!などの中で`:?`とすることでコンパイラはDebugトレイトを実装しているか確認します。(`:#?`も同様だが、整形(pritty-print)した形式となる。)
+
+```rust
+use std::fmt;
+
+struct Person {
+    name: String,
+    age: u8,
+}
+
+impl fmt::Debug for Person {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Person {{ name: \"{}\", age: {} }}", self.name, self.age)
+    }
+}
+
+fn main() {
+    let person = Person {
+        name: String::from("Taro"),
+        age: 20,
+    };
+
+    println!("{:?}", person); // Person { name: "Taro", age: 20 }
+}
+```
+
+同じように`fmt::Arguments`はDebugの振る舞いを実装していることが分かります。
+
+```rust
+#[stable(feature = "rust1", since = "1.0.0")]
+impl Debug for Arguments<'_> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result {
+        Display::fmt(self, fmt)
+    }
+}
+```
+
+ちなみに、#[derive(Debug)]を使用すると、自動でDebugのトレイトの振る舞いを実装してくれる。
+先ほどの例は下記のようにもかける。
+
+```rust
+# [derive(Debug)]
+struct Person {
+    name: String,
+    age: u8,
+}
+
+fn main() {
+    let person = Person {
+        name: String::from("Alice"),
+        age: 30,
+    };
+
+    println!("{:?}", person);
+}
+```
+
+### Writeトレイト
+
+先述した通りWriteトレイトで`write_fmt()`が実装されている。
+
+```rust showLineNumbers
+pub trait Write {
+    #[stable(feature = "fmt_write_char", since = "1.1.0")]
+    fn write_char(&mut self, c: char) -> Result {
+        self.write_str(c.encode_utf8(&mut [0; 4]))
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    fn write_fmt(&mut self, args: Arguments<'_>) -> Result {
+        trait SpecWriteFmt {
+            fn spec_write_fmt(self, args: Arguments<'_>) -> Result;
+        }
+
+        impl<W: Write + ?Sized> SpecWriteFmt for &mut W {
+            #[inline]
+            default fn spec_write_fmt(mut self, args: Arguments<'_>) -> Result {
+                if let Some(s) = args.as_statically_known_str() {
+                    self.write_str(s)
+                } else {
+                    write(&mut self, args)
+                }
+            }
+        }
+
+        impl<W: Write> SpecWriteFmt for &mut W {
+            #[inline]
+            fn spec_write_fmt(self, args: Arguments<'_>) -> Result {
+                if let Some(s) = args.as_statically_known_str() {
+                    self.write_str(s)
+                } else {
+                    write(self, args)
+                }
+            }
+        }
+
+        self.spec_write_fmt(args)
+    }
+}
+```
+
+`write()`マクロでは、以下のような実装になっていたが、`$dst`が`Write`の振る舞いを満たすのか疑問になった人もいると思います。
+
+```rust
+macro_rules! write {
+    ($dst:expr, $($arg:tt)*) => {
+        $dst.write_fmt($crate::format_args!($($arg)*))
+    };
+}
+```
+
+`$dst`は`Write`の振る舞いを満たす型でなければなりません。
+そこで[std::Stringの実装](https://doc.rust-lang.org/std/string/struct.String.html#impl-Write-for-String)を見てみると、Stringはfmt::Writeの振る舞いを満たしていることがわかります。
+
+```rust
+#[cfg(not(no_global_oom_handling))]
+#[stable(feature = "rust1", since = "1.0.0")]
+impl fmt::Write for String {
+    #[inline]
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.push_str(s);
+        Ok(())
+    }
+
+    #[inline]
+    fn write_char(&mut self, c: char) -> fmt::Result {
+        self.push(c);
+        Ok(())
+    }
+}
+```
+
+なので、以下のようにString型だとwrite!で用いることができますが、`&str`のような型はStringなどのWriteの振る舞いを満たす型に変換する必要があります。
+
+```rust
+fn main() {
+    let mut s = String::new();
+
+    match write!(&mut s, "Hello World!") {
+        Ok(_) => {
+            let result: &str = &s;
+            println!("{}", result);
+        }
+        Err(e) => {
+            eprintln!("Error writing to string: {}", e);
+        }
+    }
+}
+```
+
+<Note title="なぜ&strにWriteトレイトを実装できないのか">
+Rustでは`&str`や`i32`などのプリミティブ型にも、トレイトを実装することができます。
+
+```rust
+trait DoubleValue {
+    fn double(&self) -> i32;
+}
+
+impl DoubleValue for i32 {
+    fn double(&self) -> i32 {
+        self * 2
+    }
+}
+
+fn main() {
+    let number: i32 = 10;
+    println!("{} x 2 = {}", number, number.double());
+}
+```
+
+しかし、Rustには**孤児ルール**(Orphan Rule)というものが存在します。孤児ルールとは、**一貫性**(Coherence)を満たすための規則です。
+外部のトレイトを外部の型に対して実装することはできません。つまり、自分が定義していない型に対して、自分が定義していないトレイトを実装することはできません。この規則により、他人のコードが自分のコードを壊したり、 自分のコードが他人のコードを壊したりしないことを保証してくれます。この制約がなければ、2つのクレートで同じ型に対して同じトレイトを実装できてしまい、 コンパイラはどちらの実装を使うべきか分からなくなってしまいます。
+
+* 外部型 × 外部トレイト → ❌ 不可
+* 外部型 × 自作トレイト → ✅ 可能
+* 自作型 × 外部トレイト → ✅ 可能
+* 自作型 × 自作トレイト → ✅ 可能
+
+もちろん`&str`などイミュータブルであることもトレイトが実装できない理由の1つとなります。`std::fmt::Write`トレイトは内部的にデータを書き換える必要があるので、イミュータブルな型で実装しても意味がない。
+
+`std::fmt::Write`トレイトのシグネチャをみると以下のように**ミュータブルな参照**を前提としています。
+
+```rust
+pub trait Write {
+    fn write_str(&mut self, s: &str) -> Result<(), std::fmt::Error>;
+}
+```
+
+したがって、イミュータブルな型に対してはWriteトレイトの振る舞いを提供できないことが分かりました。
+ただし、最も根本的な原因は孤児ルールの存在であることを覚えていてください。
+</Note>

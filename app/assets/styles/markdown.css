@@ -218,12 +218,10 @@ html.dark .markdown .warn svg path {
 
 /* テーブル */
 .table-wrapper {
-  overflow-x: hidden;
-}
-
-.table-wrapper.scrollable {
   overflow-x: auto;
 }
+
+
 .markdown table {
   @apply text-sm border-gray-600 w-full border-collapse overflow-hidden rounded-sm max-md:text-xs;
   min-width: 700px;
