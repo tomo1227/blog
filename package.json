@@ -13,13 +13,12 @@
     "@hono/vite-cloudflare-pages": "^0.4.2",
     "@hono/vite-ssg": "^0.1.1",
     "@mdx-js/rollup": "^3.1.0",
-    "@rehype-pretty/transformers": "^0.13.2",
-    "@shikijs/transformers": "^1.29.1",
-    "@types/bun": "^1.2.0",
+    "@shikijs/transformers": "^1.29.2",
+    "@types/bun": "^1.2.2",
     "@types/jsdom": "^21.1.7",
     "@types/prompts": "^2.4.9",
     "autoprefixer": "^10.4.20",
-    "budoux": "^0.6.3",
+    "budoux": "^0.6.4",
     "contentlayer": "^0.3.4",
     "feed": "^4.2.2",
     "install": "^0.13.0",
@@ -37,16 +36,16 @@
     "remark-mdx-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.1",
-    "shiki": "^1.29.1",
-    "tocbot": "^4.32.2",
+    "shiki": "^1.29.2",
+    "tocbot": "^4.33.0",
     "vite-plugin-sitemap": "^0.7.1",
     "vite-plugin-static-copy": "^2.2.0",
     "tailwindcss": "^3.4.17",
     "vite": "^6.0.11",
-    "wrangler": "^3.105.0"
+    "wrangler": "^3.107.2"
   },
   "dependencies": {
-    "hono": "^4.6.18",
+    "hono": "^4.6.20",
     "honox": "^0.1.33"
   }
 }
