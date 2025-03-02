@@ -22,7 +22,7 @@
     "contentlayer": "^0.3.4",
     "feed": "^4.2.2",
     "install": "^0.13.0",
-    "jsdom": "^25.0.1",
+    "jsdom": "^26.0.0",
     "postcss": "^8.5.2",
     "prompts": "^2.4.2",
     "rehype-highlight": "^7.0.2",
