@@ -37,11 +37,6 @@ export default defineConfig(({ mode }): UserConfig => {
         client: {
           input: [
             "/app/assets/styles/tailwind.css",
-            "/app/assets/styles/markdown.css",
-            "/app/assets/styles/katex.css",
-            "/app/assets/styles/syntax-highlight.css",
-            "/app/assets/styles/toc.css",
-            "/app/assets/styles/accordion.css",
             "/app/assets/theme.ts",
             "/app/assets/tocbot.ts",
           ],
