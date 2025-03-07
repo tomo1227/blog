@@ -1,21 +1,20 @@
 import ssg from "@hono/vite-ssg";
 import mdx from "@mdx-js/rollup";
+import { transformerNotationDiff } from "@shikijs/transformers";
+import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
+import rehypeKatex from "rehype-katex";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeSlug from "rehype-slug";
-import { defineConfig, UserConfig, SSRTarget } from "vite";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import { transformerNotationDiff } from "@shikijs/transformers";
+import { defineConfig, SSRTarget, UserConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import build from "@hono/vite-build/cloudflare-pages";
-import tailwindcss from "@tailwindcss/vite";
 
 const entry = "./app/server.ts";
 
@@ -42,7 +41,6 @@ export default defineConfig(({ mode }): UserConfig => {
           ],
         },
       }),
-      build(),
       tailwindcss(),
       mdx({
         jsxImportSource: "hono/jsx",
