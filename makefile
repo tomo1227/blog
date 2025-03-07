@@ -36,4 +36,4 @@ log:
 
 .PHONY: css
 css:
-	bun run tailwindcss -i ./app/tailwind.css -o ./static/assets/tailwind.css --watch
+	bunx @tailwindcss/cli -i ./app/tailwind.css -o ./static/assets/tailwind.css --watch
