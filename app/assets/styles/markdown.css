@@ -246,5 +246,5 @@ html.dark .markdown .warn svg path {
 
 
 .markdown pre::-webkit-scrollbar-track {
-  @apply bg-black bg-black/10;
+  @apply bg-black/10;
 }
