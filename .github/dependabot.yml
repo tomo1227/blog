@@ -20,3 +20,10 @@ updates:
       interval: "daily"
     commit-message:
       prefix: "build🤖 "
+
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "build🤖 "

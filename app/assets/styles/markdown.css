@@ -1,3 +1,4 @@
+@import "tailwindcss" source("../../../app");
 
 .markdown {
   @apply dark:text-gray-100 break-words box-border tracking-wide;
@@ -41,11 +42,11 @@
 
 
 html:not(.dark) .markdown h2 {
-  @apply leading-tight text-2xl mb-4 mt-6 pb-2 font-bold bg-amber-500 p-2 rounded max-sm:text-xl;
+  @apply leading-tight text-2xl mb-4 mt-6 pb-2 font-bold bg-amber-500 p-2 rounded-sm max-sm:text-xl;
 }
 
 html.dark .markdown h2 {
-  @apply leading-tight text-2xl mb-4 mt-6 pb-2 font-bold bg-amber-600 p-2 rounded max-sm:text-xl;
+  @apply leading-tight text-2xl mb-4 mt-6 pb-2 font-bold bg-amber-600 p-2 rounded-sm max-sm:text-xl;
 }
 
 
@@ -77,11 +78,11 @@ html.dark .markdown h3 {
 
 /* 複数テーマ */
 .markdown code[data-theme="material-theme-palenight everforest-light"] {
-  @apply font-mono text-sm rounded tracking-wide max-md:text-xs;
+  @apply font-mono text-sm rounded-sm tracking-wide max-md:text-xs;
 }
 
 .markdown code:not([data-theme="material-theme-palenight everforest-light"]) {
-  @apply font-mono text-sm inline bg-gray-200 text-gray-600 dark:bg-gray-600 dark:text-gray-200 rounded px-1.5 py-1 mx-0.5 tracking-wide;
+  @apply font-mono text-sm inline bg-gray-200 text-gray-600 dark:bg-gray-600 dark:text-gray-200 rounded-sm px-1.5 py-1 mx-0.5 tracking-wide;
 }
 
 html:not(.dark) .markdown code[data-theme*="everforest-light"] span {
@@ -114,12 +115,12 @@ html.dark .markdown span code[data-theme*="material-theme-palenight"] span {
 }
 
 html:not(.dark) .markdown pre[data-theme*="everforest-light"] {
-  @apply bg-gray-100 rounded p-1;
+  @apply bg-gray-100 rounded-sm p-1;
   background-color: var(--shiki-light-bg);
 }
 
 html.dark .markdown pre[data-theme*="material-theme-palenight"] {
-  @apply bg-gray-100 rounded p-1;
+  @apply bg-gray-100 rounded-sm p-1;
   background-color: var(--shiki-dark-bg);
 }
 
@@ -136,12 +137,12 @@ html.dark .markdown pre[data-theme*="material-theme-palenight"] {
 }
 
 .markdown kbd {
-  @apply text-xs inline-block rounded border px-1 py-5 align-middle font-normal font-mono shadow;
+  @apply text-xs inline-block rounded-sm border px-1 py-5 align-middle font-normal font-mono shadow;
 }
 
 /* Override pygments style background color. */
 .markdown .highlight pre {
-  @apply bg-gray-100 !important;
+  @apply bg-gray-100!;
 }
 
 .source {
@@ -214,7 +215,7 @@ html.dark .markdown .warn svg path {
 
 
 .markdown table {
-  @apply text-sm border-gray-600 w-full border-collapse overflow-hidden rounded-sm max-md:text-xs;
+  @apply text-sm border-gray-600 w-full border-collapse overflow-hidden rounded-xs max-md:text-xs;
   min-width: 700px;
 }
 
@@ -295,9 +296,9 @@ html.dark .markdown .warn svg path {
 }
 
 .markdown pre::-webkit-scrollbar-thumb {
-  @apply bg-black bg-opacity-30 rounded-xl dark:bg-opacity-50;
+  @apply bg-black/30 rounded-xl dark:bg-black/50;
 }
 
 .markdown pre::-webkit-scrollbar-track {
-  @apply bg-black bg-opacity-10;
+  @apply bg-black/10;
 }

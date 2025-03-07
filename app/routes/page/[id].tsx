@@ -46,7 +46,7 @@ export default createRoute(
         ))}
         <div class="flex justify-center mb-8 gap-5 max-md:gap-2">
           {currentPage > 1 && (
-            <a href={`/page/${currentPage - 1}`} class="px-3 py-1 rounded text-blue-500 hover:bg-amber-500 hover:text-white transition-colors">
+            <a href={`/page/${currentPage - 1}`} class="px-3 py-1 rounded-sm text-blue-500 hover:bg-amber-500 hover:text-white transition-colors">
               &lt;&lt;
             </a>
           )}
@@ -56,7 +56,7 @@ export default createRoute(
             return (
               <a
                 href={`/page/${page}`}
-                class={`px-3 py-1 rounded ${page === currentPage ? "bg-blue-500 text-white" : "text-blue-500"
+                class={`px-3 py-1 rounded-sm ${page === currentPage ? "bg-blue-500 text-white" : "text-blue-500"
                   } hover:bg-amber-500 hover:text-white transition-colors`}
               >
                 {page}
@@ -64,7 +64,7 @@ export default createRoute(
             );
           })}
           {currentPage < totalPages && (
-            <a href={`/page/${currentPage + 1}`} class="px-3 py-1 rounded text-blue-500 hover:bg-amber-500 hover:text-white transition-colors">
+            <a href={`/page/${currentPage + 1}`} class="px-3 py-1 rounded-sm text-blue-500 hover:bg-amber-500 hover:text-white transition-colors">
               &gt;&gt;
             </a>
           )}
