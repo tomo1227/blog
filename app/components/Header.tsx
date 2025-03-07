@@ -7,7 +7,7 @@ export const Header = (props: Props) => {
   return (
     <header
       class={
-        "text-center border-b px-4 mx-2 max-md:px-2 dark:border-gray-500 w-full h-16 tracking-widest dark:text-gray-100 flex justify-between items-center max-md:flex-col max-md:h-auto"
+        "text-center border-b px-4 mx-2 border-gray-300 max-md:px-2 dark:border-gray-500 w-full h-16 tracking-widest dark:text-gray-100 flex justify-between items-center max-md:flex-col max-md:h-auto"
       }
     >
       <a href="/" class="flex items-center max-md:justify-center max-md:w-full">

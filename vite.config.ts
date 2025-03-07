@@ -14,6 +14,9 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { transformerNotationDiff } from "@shikijs/transformers";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import build from "@hono/vite-build/cloudflare-pages";
+import tailwindcss from "@tailwindcss/vite";
+
 const entry = "./app/server.ts";
 
 export default defineConfig(({ mode }): UserConfig => {
@@ -34,11 +37,18 @@ export default defineConfig(({ mode }): UserConfig => {
         client: {
           input: [
             "/app/assets/styles/tailwind.css",
+            "/app/assets/styles/markdown.css",
+            "/app/assets/styles/katex.css",
+            "/app/assets/styles/syntax-highlight.css",
+            "/app/assets/styles/toc.css",
+            "/app/assets/styles/accordion.css",
             "/app/assets/theme.ts",
             "/app/assets/tocbot.ts",
           ],
         },
       }),
+      build(),
+      tailwindcss(),
       mdx({
         jsxImportSource: "hono/jsx",
         providerImportSource: "./app/components/feature/blogs/mdxComponents",

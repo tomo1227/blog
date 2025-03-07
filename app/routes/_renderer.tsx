@@ -49,6 +49,9 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
         <Script src="/app/client.ts" />
         <Style />
         <Link href="/app/assets/styles/tailwind.css" rel="stylesheet" />
+        {/* <Link href="/app/assets/styles/markdown.css" rel="stylesheet" />
+        <Link href="/app/assets/styles/katex.css" rel="stylesheet" />
+        <Link href="/app/assets/styles/syntax-highlight.css" rel="stylesheet" /> */}
         <link rel="icon" href="/static/assets/favicon.ico" />
         <link rel="apple-touch-icon" href="/static/assets/apple-touch-icon.png" />
         <link rel="manifest" href="/static/assets/site.webmanifest" />
@@ -76,7 +79,7 @@ export default jsxRenderer(({ children, frontmatter, title, entryName }) => {
         </Header>
         <div id="main-contents" class="flex flex-row">
           <SideBar tags={tags}></SideBar>
-          <main id="main-body" class="max-w-[780px] w-screen px-6 mt-6 flex-grow">
+          <main id="main-body" class="max-w-[780px] w-screen px-6 mt-6 grow">
             <div id="toc"></div>
             <article>{children}</article>
           </main>
