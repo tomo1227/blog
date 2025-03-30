@@ -85,6 +85,7 @@ export default defineConfig(({ mode }): UserConfig => {
         "satori",
         "@resvg/resvg-js",
         "feed",
+        "budoux",
         "jsdom",
         "tocbot",
       ],
