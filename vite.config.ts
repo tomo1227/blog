@@ -88,6 +88,7 @@ export default defineConfig(({ mode }): UserConfig => {
         "budoux",
         "jsdom",
         "tocbot",
+        "budoux",
       ],
     },
     server: {
