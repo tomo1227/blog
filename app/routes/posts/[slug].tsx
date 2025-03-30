@@ -10,8 +10,8 @@ import { formattedDate } from "../../components/feature/blogs/date";
 import { Profile } from "../../components/parts/Profile";
 import { TitleIcon } from "../../components/parts/TitleIcon";
 import { XIcon } from "../../components/parts/icons";
-import { model as jaModel } from "budoux/dist/data/models/ja";
-import { Parser } from "budoux/dist/parser";
+import { jaModel } from "budoux";
+import { Parser } from "budoux";
 import { ArticleListItem } from "../../components/feature/blogs/ArticleListItems";
 
 const parser = new Parser(jaModel);
