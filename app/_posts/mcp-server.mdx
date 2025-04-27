@@ -38,6 +38,53 @@ MCPはクライアントサーバアーキテクチャに従う。
 |  ローカル<br/>データソース  | MCPサーバが安全にアクセスできるローカルのファイル、データベース、サービス  |
 |  リモートサービス  |  MCPサーバが外部API等で接続できるインターネット上の外部システム |
 
+## MCPサーバの実装
+
+まず、Claude Desktopをインストールする。ここではHomebrewを使用します。
+
+```shellsession
+brew install --cask claude
+```
+
+Claude > 設定 > 開発者を開きます。
+
+![alt text](../../public/static/assets/img/posts/mcp-server/img-1.png)
+
+構成を編集を押すと、`claude_desktop_config.json`が存在するディレクトリが開かれます。
+
+VSCodeなどで以下のように編集します。
+
+```json title="claude_desktop_config.json"
+{
+    "mcpServers": {
+        "weather": {
+            "command": "node",
+            "args": [
+                "/ABSOLUTE/PATH/TO/PARENT/FOLDER/weather/build/index.js"
+            ]
+        }
+    }
+}
+```
+
+上記の場合だと、`weather`がMCPサーバ名で、`command`にサーバ起動の実行コマンドを指定、`args`に引数を指定します。例えば、上記と同じことをPython(uv)で行う場合は以下のようになります。
+
+```json title="claude_desktop_config.json"
+{
+    "mcpServers": {
+        "weather": {
+            "command": "uv",
+            "args": [
+                "--directory",
+                "/ABSOLUTE/PATH/TO/PARENT/FOLDER/weather",
+                "run",
+                "weather.py"
+            ]
+        }
+    }
+}
+```
+
 ## 参考文献
 
 1. [Weights & Biases](https://wandb.ai/byyoung3/Generative-AI/reports/The-Model-Context-Protocol-MCP-A-Guide-for-AI-Integration--VmlldzoxMTgzNDgxOQ)
