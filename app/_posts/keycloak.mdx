@@ -1,5 +1,5 @@
 ---
-title: Keycloakを使ってみる
+title: Keycloakチュートリアル
 createdDate: 2025-04-24T11:38:27.606Z
 description: Keycloakの使い方を解説します。
 tags:
@@ -18,3 +18,47 @@ IDとアクセス管理（IAM）を実現するオープンソースソフトウ
 https://github.com/keycloak/keycloak
 
 https://www.keycloak.org/documentation.html
+
+## Keycloakを実際に動かしみる
+
+ここではDocker Composeを使ってKeycloakを実際に使ってみます。
+
+```sh
+gh repo clone keycloak/keycloak
+cd quarkus/container/Dockerfile
+```
+
+Dockerfileの`KEYCLOAK_VERSION`を https://github.com/keycloak/keycloak/releases の最新のバージョンで指定します。
+
+```compose.yml
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.3
+    ports:
+      - 8080:8080
+    tty: true
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+```
+
+docker composeを起動します。
+
+```sh
+docker compose up -d
+```
+
+http://localhost:8080 にアクセスすると以下のようなログイン画面になります。
+
+![alt text](../../public/static/assets/img/posts/keycloak/img-1.png)
+
+ユーザネームとパスワードは`KEYCLOAK_ADMIN`と`KEYCLOAK_ADMIN_PASSWORD`で指定した値となります。上記のdocker composeの場合だと両方adminとなっています。
+
+ログインすると以下のような画面になります。
+
+![alt text](../../public/static/assets/img/posts/keycloak/img-2.png)
+
+## チュートリアル
+
+### adminユーザの削除
