@@ -29,7 +29,7 @@ MCPが連携する外部のリソースは以下のように3種類に分類す�
 
 MCPはクライアントサーバアーキテクチャに従う。
 
-![alt text](../../public/static/assets/img/posts/mcp-server/img.png)
+![alt text](../../public/static/assets/img/posts/mcp/img.png)
 
 |   用語   |     説明     |
 | :--------: | :---------- |
@@ -50,7 +50,7 @@ brew install --cask claude
 
 Claude > 設定 > 開発者を開きます。
 
-![alt text](../../public/static/assets/img/posts/mcp-server/img-1.png)
+![alt text](../../public/static/assets/img/posts/mcp/img-1.png)
 
 構成を編集を押すと、`claude_desktop_config.json`が存在するディレクトリが開かれます。
 
@@ -167,12 +167,12 @@ if __name__ == "__main__":
 
 Claude Desktop側でMCPサーバと接続してみます。Claude DesktopにはRemoteのMCPサーバの接続をサポートしていないので、npmで[mcp-remote](https://www.npmjs.com/package/mcp-remote)というツールがあるのでこちらを使用する必要があります。(参考 : [Claude Desktop App with HTTP-with-SSE-transport? · modelcontextprotocol · Discussion #16](https://github.com/orgs/modelcontextprotocol/discussions/16))
 
-ちなみに、私の環境ではコンテナのポートの80はローカルの8000に割り当てられています。
+ちなみに、私の環境ではコンテナのポートの80はローカルの8000に割り当てられているのでconfigファイルは以下のようになります。
 
 ```json title="claude_desktop_config.json"
 {
     "mcpServers": {
-        "wp_rag": {
+        "hello": {
             "command": "npx",
             "args": [
                 "mcp-remote",
@@ -182,6 +182,21 @@ Claude Desktop側でMCPサーバと接続してみます。Claude DesktopにはR
     }
 }
 ```
+
+Claude Desktopを再起動すると以下のような文言が出て、MCPが導入されていることが分かります。
+
+![alt text](../../public/static/assets/img/posts/mcp/img-2.PNG)
+
+早速、先ほど作成したMCPサーバの`hello`を使用してみましょう。
+
+ClaudeのチャットでMCPのhelloを使用して何かを質問してみます。
+チャットを送信すると、以下のような画面が出てくるので「常に許可する」を選択します。
+
+![alt text](../../public/static/assets/img/posts/mcp/img-3.PNG)
+
+`hello`はどんなリクエストでもhelloを返すAPIなので、以下のように`Hello,World`が返ってきます。
+
+![alt text](../../public/static/assets/img/posts/mcp/img-4.PNG)
 
 ## 公開されているMCPサーバ
 
