@@ -235,6 +235,61 @@ html.dark .markdown .warn svg path {
   @apply bg-white dark:bg-gray-900;
 }
 
+/* コピペマーク */
+.ready {
+  display: inline-block;
+  height: auto; 
+  border-radius: 4px;
+  position: absolute; 
+  top: 0;
+  right: 0;
+}
+
+.ready:before {
+  content: "📋";
+}
+
+.success {
+  display: inline-block;
+  height: auto; 
+  border-radius: 4px;
+  position: absolute; 
+  top: 0;
+  right: 0;
+}
+
+.success:before {
+  content: "✅";
+}
+
+.markdown span code button {
+  @apply hidden;
+}
+
+.markdown pre code button.rehype-pretty-copy {
+  @apply m-0;
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  right: 1px;
+  opacity: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  padding-top: 2px;
+  margin-right: 8px;
+  position: absolute;
+  border-radius: 25%;
+}
+
+.markdown pre {
+  @apply relative;
+}
+.markdown code:hover button.rehype-pretty-copy{
+  opacity: 1;
+}
 .markdown pre::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -243,7 +298,6 @@ html.dark .markdown .warn svg path {
 .markdown pre::-webkit-scrollbar-thumb {
   @apply bg-black/30 rounded-xl dark:bg-black/50;
 }
-
 
 .markdown pre::-webkit-scrollbar-track {
   @apply bg-black/10;
