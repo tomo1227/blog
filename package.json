@@ -16,7 +16,7 @@
     "@shikijs/transformers": "^3.1.0",
     "@tailwindcss/postcss": "^4.1.4",
     "@tailwindcss/vite": "^4.1.4",
-    "@types/bun": "^1.2.4",
+    "@types/bun": "^1.2.12",
     "@types/jsdom": "^21.1.7",
     "@types/prompts": "^2.4.9",
     "autoprefixer": "^10.4.20",
@@ -39,15 +39,15 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "shiki": "^3.1.0",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.5",
     "tocbot": "^4.36.2",
-    "vite": "^6.3.3",
+    "vite": "^6.3.5",
     "vite-plugin-sitemap": "^0.7.1",
     "vite-plugin-static-copy": "^2.3.1",
-    "wrangler": "^4.13.1"
+    "wrangler": "^4.14.1"
   },
   "dependencies": {
-    "hono": "^4.7.7",
+    "hono": "^4.7.8",
     "honox": "^0.1.40"
   }
 }
