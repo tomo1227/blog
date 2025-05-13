@@ -1,5 +1,6 @@
 import ssg from "@hono/vite-ssg";
 import mdx from "@mdx-js/rollup";
+import { transformerCopyButton } from "@rehype-pretty/transformers";
 import { transformerNotationDiff } from "@shikijs/transformers";
 import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
@@ -26,7 +27,13 @@ export default defineConfig(({ mode }): UserConfig => {
       light: "everforest-light",
     },
     defaultLang: "plaintext",
-    transformers: [transformerNotationDiff()],
+    transformers: [
+      transformerNotationDiff(),
+      transformerCopyButton({
+        visibility: "always",
+        feedbackDuration: 3_000,
+      }),
+    ],
   };
 
   const commonConfig = {
