@@ -59,6 +59,15 @@ http://localhost:8080 にアクセスすると以下のようなログイン画�
 
 ![alt text](../../public/static/assets/img/posts/keycloak/img-2.png)
 
-## チュートリアル
-
 ### adminユーザの削除
+
+adminユーザは非推奨のため削除しておきましょう。
+
+adminユーザを削除する前にUsers > Add Userからユーザを作成しておきます。
+
+![alt text](../../public/static/assets/img/posts/keycloak/img-3.png)
+
+Users > User details > Role Mappingで作成したUserにロールを付与します。
+例えば、以下のように管理者権限をユーザに持たせる場合は、以下のようにadminを付与します。
+
+![alt text](../../public/static/assets/img/posts/keycloak/img-4.png)
