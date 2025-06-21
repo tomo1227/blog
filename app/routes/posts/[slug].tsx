@@ -1,18 +1,17 @@
+import { jaModel, Parser } from "budoux";
 import { Fragment } from "hono/jsx/jsx-runtime";
 import { ssgParams } from "hono/ssg";
 import { createRoute } from "honox/factory";
+import { ArticleListItem } from "../../components/feature/blogs/ArticleListItems";
+import { formattedDate } from "../../components/feature/blogs/date";
 import {
   getLatestPostsWithoutTargetPost,
   getPostByEntryName,
   getPosts,
 } from "../../components/feature/blogs/sorts";
-import { formattedDate } from "../../components/feature/blogs/date";
 import { Profile } from "../../components/parts/Profile";
 import { TitleIcon } from "../../components/parts/TitleIcon";
 import { XIcon } from "../../components/parts/icons";
-import { model as jaModel } from "budoux/dist/data/models/ja";
-import { Parser } from "budoux/dist/parser";
-import { ArticleListItem } from "../../components/feature/blogs/ArticleListItems";
 
 const parser = new Parser(jaModel);
 

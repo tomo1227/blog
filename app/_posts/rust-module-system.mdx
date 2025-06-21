@@ -155,7 +155,7 @@ pub fn hello() {
 
 ### サブモジュールを作成せずにimportする
 
-`crate::`もしくは`super`使用することでサブモジュールからサブモジュールを呼び出すことができます。superは直近の親からの相対パスで、crateを使用した場合はプロジェクトのルートからの絶対パスとなります。
+`crate::`もしくは`super::`を使用することでサブモジュールからサブモジュールを呼び出すことができます。`super`は直近の親からの相対パスで、`crate`を使用した場合はプロジェクトのルートからの絶対パスとなります。
 
 ```rust title="main.rs" /crate::/#r
 fn main() {
@@ -221,6 +221,8 @@ fn main() {
     app::user::say();
 }
 ```
+
+ここで`app`はCargo.tomlに書いているpackageのnameとなります。
 
 ```rust title="greet.rs"
 pub fn hello() {
