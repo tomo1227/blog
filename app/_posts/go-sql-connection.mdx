@@ -1,0 +1,70 @@
+---
+title: 【Go言語】SQLのコネクション
+createdDate: 2025-06-21T10:35:43.119Z
+description: Go言語のSQLのコネクションについて解説しています。
+tags:
+  - Go
+iconUrl: https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/T-rex/Flat/t-rex_flat.svg
+---
+
+## sql.Open
+
+sql.Openは必ずしもデータベースへのコネクションを確立するとは限りません。
+
+```go
+func main() {
+    _, err := sql.Open("mysql", "dummy:dummy@tcp(localhost:3306)/dummy")
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println("Success!")
+}
+```
+
+最初に `sql.Open()` を実行していますが、データベースを使用していなくてもこのコードは実行され、`Success!` と出力されます。
+
+https://pkg.go.dev/database/sqlには以下のように書かれています。
+
+> Open may just validate its arguments without creating a connection to the database. To verify that the data source name is valid, call DB.Ping.
+
+つまり、`sql.Open`は、データベースへのコネクションを確立せずに、引数を検証するだけする場合がある。DSNが有効かを確認するには、`DB.Ping`を呼び出す必要がある。
+
+## Ping
+
+sql.Openの動作はSQLドライバーに依存しています。ドライバーによって、sql.Openはコネクションを確立せず、引数の妥当性だけを確認します。
+
+```go
+db, err := sql.Open("mysql", "dummy:dummy@tcp(localhost:3306)/dummy")
+if err != nil {
+    return err
+}
+
+// Pingメソッドでコネクションを確立する
+if err := db.Ping(); err != nil {
+    return err
+}
+```
+
+Ping()以外にもPingContext()が存在する。これはPingのキャンセルやタイムアウトのタイミングをContextに持たせることができる。
+
+## コネクションプール
+
+Goでデータベースコネクションがどのように処理されるかを理解する必要がある。
+sql.Openは`*sql.DB`を返し、これはデータベースへの1つのコネクションを表すのではなく、コネクションプールを表している。自分でプールを実装してはいけない。
+
+プール内のコネクションは以下の2つの状態を保持する。
+
+* すでに使用中
+* アイドル
+
+プールを作成したら、置き換えができる4つの設定パラメータがあり、*sql.DBの公開メソッドで設定できる。
+
+|メソッド|説明|デフォルト値|
+|:-:|:-|:-:|
+|SetMaxOpenConns|データベースへの最大オープンコネクション数|無制限|
+|SetMaxIdleConns|アイドル状態の最大コネクション数|2|
+|SetConnMaxIdleTime|コネクションが終了するまでのアイドル状態の最大時間|無制限|
+|SetConnMaxLifetime|コネクションをクローズする前にオープンしたままにできる最大時間|無制限|
+
+本番レベルのアプリケーションでは、これらの4つのパラメータを設定する必要がある。
+また、複数のコネクションプールを使うことも可能。
