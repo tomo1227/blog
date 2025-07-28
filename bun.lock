@@ -5,7 +5,7 @@
       "name": "mdx",
       "dependencies": {
         "hono": "^4.8.9",
-        "honox": "^0.1.40",
+        "honox": "^0.1.43",
       },
       "devDependencies": {
         "@hono/vite-build": "^1.6.2",
@@ -183,11 +183,11 @@
 
     "@grpc/proto-loader": ["@grpc/proto-loader@0.7.15", "", { "dependencies": { "lodash.camelcase": "^4.3.0", "long": "^5.0.0", "protobufjs": "^7.2.5", "yargs": "^17.7.2" }, "bin": { "proto-loader-gen-types": "build/bin/proto-loader-gen-types.js" } }, "sha512-tMXdRCfYVixjuFK+Hk0Q1s38gV9zDiDJfWL3h1rv4Qc39oILCu1TRTDt7+fGUI8K4G1Fj125Hx/ru3azECWTyQ=="],
 
-    "@hono/node-server": ["@hono/node-server@1.14.1", "", { "peerDependencies": { "hono": "^4" } }, "sha512-vmbuM+HPinjWzPe7FFPWMMQMsbKE9gDPhaH0FFdqbGpkT5lp++tcWDTxwBl5EgS5y6JVgIaCdjeHRfQ4XRBRjQ=="],
+    "@hono/node-server": ["@hono/node-server@1.17.1", "", { "peerDependencies": { "hono": "^4" } }, "sha512-SY79W/C+2b1MyAzmIcV32Q47vO1b5XwLRwj8S9N6Jr5n1QCkIfAIH6umOSgqWZ4/v67hg6qq8Ha5vZonVidGsg=="],
 
     "@hono/vite-build": ["@hono/vite-build@1.6.2", "", { "peerDependencies": { "hono": "*" } }, "sha512-wM1KZelUcLiPABYSe/1YtveCkHJxaZ42e68naRznUPKrfVYPAC7wE8Itilmxa81ICZKhb1tBOQ7CHxtGF5dLGw=="],
 
-    "@hono/vite-dev-server": ["@hono/vite-dev-server@0.19.0", "", { "dependencies": { "@hono/node-server": "^1.12.0", "minimatch": "^9.0.3" }, "peerDependencies": { "hono": "*", "miniflare": "*", "wrangler": "*" }, "optionalPeers": ["miniflare", "wrangler"] }, "sha512-myMc4Nm0nFQSPaeE6I/a1ODyDR5KpQ4EHodX4Tu/7qlB31GfUemhUH/WsO91HJjDEpRRpsT4Zbg+PleMlpTljw=="],
+    "@hono/vite-dev-server": ["@hono/vite-dev-server@0.19.1", "", { "dependencies": { "@hono/node-server": "^1.14.2", "minimatch": "^9.0.3" }, "peerDependencies": { "hono": "*", "miniflare": "*", "wrangler": "*" }, "optionalPeers": ["miniflare", "wrangler"] }, "sha512-hh+0u3IxHErEyj4YwHk/U+2f+qAHEQZ9EIQtadG9jeHfxEXH6r/ZecjnpyEkQbDK7JtgEEoVAq/JGOkd3Dvqww=="],
 
     "@hono/vite-ssg": ["@hono/vite-ssg@0.1.2", "", { "peerDependencies": { "hono": ">=4.0.0" } }, "sha512-d8/UsYEwJtjyo6DDYa5VA9LnCDBSz33tUH4UxQjujsXlKSRExYnaqJbu+wL84mF3oi3g9XXOt1AtxqmCZJr3LA=="],
 
@@ -749,7 +749,7 @@
 
     "hono": ["hono@4.8.9", "", {}, "sha512-ERIxkXMRhUxGV7nS/Af52+j2KL60B1eg+k6cPtgzrGughS+espS9KQ7QO0SMnevtmRlBfAcN0mf1jKtO6j/doA=="],
 
-    "honox": ["honox@0.1.40", "", { "dependencies": { "@babel/generator": "7.25.6", "@babel/parser": "7.25.6", "@babel/traverse": "7.25.6", "@babel/types": "7.25.6", "@hono/vite-dev-server": "0.19.0", "jsonc-parser": "3.3.1", "precinct": "12.1.2" }, "optionalDependencies": { "@rollup/rollup-linux-x64-gnu": "^4.9.6" }, "peerDependencies": { "hono": ">=4.*" } }, "sha512-yXxx/jHcPPJMxw5VzyaSRgl9Dxlw4sIyzbqb5vcQG8ijpvttxoHT51zombgsIID/oOa2UEHaHOfu8HI+Tgjvww=="],
+    "honox": ["honox@0.1.43", "", { "dependencies": { "@babel/generator": "7.25.6", "@babel/parser": "7.25.6", "@babel/traverse": "7.25.6", "@babel/types": "7.25.6", "@hono/vite-dev-server": "0.19.1", "jsonc-parser": "3.3.1", "precinct": "12.1.2" }, "optionalDependencies": { "@rollup/rollup-linux-x64-gnu": "^4.9.6" }, "peerDependencies": { "hono": ">=4.*" } }, "sha512-PNlDHOPMrStgVwD4SOO/ihcA2iK3UaNluIWahxJkjY0dgvOc1hm8BBM06XpMNF2zVkOrtYk1xS3cCxCJZQIwpw=="],
 
     "html-encoding-sniffer": ["html-encoding-sniffer@4.0.0", "", { "dependencies": { "whatwg-encoding": "^3.1.1" } }, "sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ=="],
 
