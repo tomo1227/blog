@@ -4,7 +4,7 @@
     "": {
       "name": "mdx",
       "dependencies": {
-        "hono": "^4.8.9",
+        "hono": "^4.8.12",
         "honox": "^0.1.40",
       },
       "devDependencies": {
@@ -747,7 +747,7 @@
 
     "highlight.js": ["highlight.js@11.11.1", "", {}, "sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w=="],
 
-    "hono": ["hono@4.8.9", "", {}, "sha512-ERIxkXMRhUxGV7nS/Af52+j2KL60B1eg+k6cPtgzrGughS+espS9KQ7QO0SMnevtmRlBfAcN0mf1jKtO6j/doA=="],
+    "hono": ["hono@4.8.12", "", {}, "sha512-MQSKk1Mg7b74k8l+A025LfysnLtXDKkE4pLaSsYRQC5iy85lgZnuyeQ1Wynair9mmECzoLu+FtJtqNZSoogBDQ=="],
 
     "honox": ["honox@0.1.40", "", { "dependencies": { "@babel/generator": "7.25.6", "@babel/parser": "7.25.6", "@babel/traverse": "7.25.6", "@babel/types": "7.25.6", "@hono/vite-dev-server": "0.19.0", "jsonc-parser": "3.3.1", "precinct": "12.1.2" }, "optionalDependencies": { "@rollup/rollup-linux-x64-gnu": "^4.9.6" }, "peerDependencies": { "hono": ">=4.*" } }, "sha512-yXxx/jHcPPJMxw5VzyaSRgl9Dxlw4sIyzbqb5vcQG8ijpvttxoHT51zombgsIID/oOa2UEHaHOfu8HI+Tgjvww=="],
 
