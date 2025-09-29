@@ -16,7 +16,7 @@
     "@shikijs/transformers": "^3.11.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@tailwindcss/vite": "^4.1.12",
-    "@types/bun": "^1.2.20",
+    "@types/bun": "^1.2.23",
     "@types/jsdom": "^21.1.7",
     "@types/prompts": "^2.4.9",
     "autoprefixer": "^10.4.21",
