@@ -43,7 +43,7 @@
     "tocbot": "^4.36.4",
     "vite": "^7.1.10",
     "vite-plugin-sitemap": "^0.8.2",
-    "vite-plugin-static-copy": "^3.1.2",
+    "vite-plugin-static-copy": "^3.1.4",
     "wrangler": "^4.42.2"
   },
   "dependencies": {
