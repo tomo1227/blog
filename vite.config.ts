@@ -35,6 +35,7 @@ export default defineConfig(({ mode }): UserConfig => {
       honox({
         client: {
           input: [
+            "/app/client.ts",
             "/app/assets/styles/tailwind.css",
             "/app/assets/theme.ts",
             "/app/assets/tocbot.ts",
@@ -91,7 +92,7 @@ export default defineConfig(({ mode }): UserConfig => {
       ],
     },
     server: {
-      port: 3003,
+      port: 3030,
       host: "0.0.0.0",
       watch: {
         usePolling: true, // コンテナ環境での監視方法を変更
