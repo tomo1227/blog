@@ -14,3 +14,4 @@ git config pull.rebase false
 git config --global commit.template .commit_template
 
 bun install --frozen-lockfile
+bunx playwright install

@@ -48,6 +48,8 @@
   },
   "dependencies": {
     "hono": "^4.12.3",
-    "honox": "^0.1.54"
+    "honox": "^0.1.54",
+    "playwright": "^1.58.2",
+    "rehype-mermaid": "^3.0.0"
   }
 }

@@ -4,6 +4,7 @@ import { transformerNotationDiff } from "@shikijs/transformers";
 import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
 import rehypeKatex from "rehype-katex";
+import rehypeMermaid from "rehype-mermaid";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
@@ -65,6 +66,7 @@ export default defineConfig(({ mode }): UserConfig => {
         rehypePlugins: [
           rehypeSlug,
           rehypeKatex,
+          rehypeMermaid,
           rehypeStringify,
           [rehypePrettyCode, highlightOptions],
         ],
