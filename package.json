@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "bunx playwright install --with-deps && vite build --mode client && vite build",
+    "build": "bunx playwright install chromium && vite build --mode client && vite build",
     "preview": "wrangler pages dev ./dist",
     "deploy": "wrangler pages deploy",
     "post": "bun run scripts/createPost.ts"
