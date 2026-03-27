@@ -276,3 +276,93 @@ function getStringLength(str) {
 <Accordion title="アコーディオンの例だよ！">
   こんにちは！
 </Accordion>
+
+## Mermaidの導入
+
+この記事では、MDX内でMermaidのコードブロックを描画できるようにするまでの流れをまとめます。
+
+[mermaid](https://www.npmjs.com/package/mermaid)と[remcohaszing/rehype-mermaid](https://github.com/remcohaszing/rehype-mermaid) をインストールします。
+
+```shell
+bun i mermaid rehype-mermaid
+```
+
+次に`rehype-mermaid` を `vite.config.ts` の `rehypePlugins` に追加します。
+
+```ts title="vite.config.ts"
+rehypePlugins: [
+  rehypeSlug,
+  rehypeKatex,
+  rehypeMermaid, //[!code ++]
+  rehypeStringify,
+  [rehypePrettyCode, highlightOptions],
+],
+```
+
+また、SSRのexternalにも `mermaid` を追加します。
+
+```ts title="vite.config.ts"
+ssr: {
+  target: "node" as SSRTarget,
+  external: [
+    "unified",
+    "@mdx-js/mdx",
+    "satori",
+    "@resvg/resvg-js",
+    "feed",
+    "budoux",
+    "jsdom",
+    "mermaid", //[!code ++]
+    "tocbot",
+  ],
+},
+```
+
+### フローチャート
+
+```mermaid
+graph TD
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Do something]
+  B -->|No| D[Do something else]
+  C --> E[End]
+  D --> E[End]
+```
+
+### シーケンス図
+
+```mermaid
+sequenceDiagram
+  participant Alice
+  participant Bob
+  Alice->>Bob: Hello Bob
+  Bob-->>Alice: Hi Alice
+```
+
+### クラス図
+
+```mermaid
+classDiagram
+  class Animal {
+    +String name
+    +int age
+    +eat()
+  }
+  class Dog {
+    +bark()
+  }
+  class Cat {
+    +meow()
+  }
+  Animal <|-- Dog
+  Animal <|-- Cat
+```
+
+### 円グラフ
+
+```mermaid
+pie title Pets adopted by volunteers
+    "Dogs" : 386
+    "Cats" : 85
+    "Rats" : 15
+```
