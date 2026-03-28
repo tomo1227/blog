@@ -11,6 +11,7 @@ import rehypeStringify from "rehype-stringify";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import rehypeMermaid from "rehype-mermaid";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -42,6 +43,7 @@ export default defineConfig(({ mode }): UserConfig => {
       honox({
         client: {
           input: [
+            "/app/client.ts",
             "/app/assets/styles/tailwind.css",
             "/app/assets/theme.ts",
             "/app/assets/tocbot.ts",
@@ -71,6 +73,7 @@ export default defineConfig(({ mode }): UserConfig => {
         rehypePlugins: [
           rehypeSlug,
           rehypeKatex,
+          rehypeMermaid,
           rehypeStringify,
           [rehypePrettyCode, highlightOptions],
         ],
@@ -94,11 +97,12 @@ export default defineConfig(({ mode }): UserConfig => {
         "feed",
         "budoux",
         "jsdom",
+        "mermaid",
         "tocbot",
       ],
     },
     server: {
-      port: 3003,
+      port: 3030,
       host: "0.0.0.0",
       watch: {
         usePolling: true, // コンテナ環境での監視方法を変更

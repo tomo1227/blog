@@ -2,7 +2,7 @@
   "name": "${localWorkspaceFolderBasename}",
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
-  "dockerComposeFile": ["../compose.yml"],
+  "dockerComposeFile": ["./compose.yml"],
   "forwardPorts": [3000],
   "remoteUser": "vscode",
   "postCreateCommand": "sh .devcontainer/scripts/post_create.sh",

@@ -14,6 +14,10 @@ update:
 run:
 	bunx --bun vite
 
+.PHONY: build
+build:
+	bun run build
+
 .PHONY: up
 up:
 	docker compose up -d
