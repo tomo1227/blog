@@ -248,3 +248,61 @@ html.dark .markdown .warn svg path {
 .markdown pre::-webkit-scrollbar-track {
   @apply bg-black/10;
 }
+
+/* Mermaid: improve edge/arrow contrast in dark mode */
+html.dark .markdown svg.mermaid .edgePath path,
+html.dark .markdown svg.mermaid .arrowheadPath,
+html.dark .markdown svg.mermaid marker path,
+html.dark .markdown .mermaid .flowchart-link,
+html.dark .markdown svg.mermaid .flowchart-link,
+html.dark .markdown svg.flowchart .flowchart-link,
+html.dark .markdown svg.flowchart .arrowMarkerPath,
+html.dark .markdown svg.flowchart .marker,
+html.dark .markdown svg.flowchart .marker path,
+html.dark .markdown svg.flowchart .arrowheadPath,
+html.dark .markdown svg.flowchart .edgePath .path,
+html.dark .markdown svg.classDiagram .relation,
+html.dark .markdown svg.classDiagram .relationLine,
+html.dark .markdown svg.classDiagram .relationLine path,
+html.dark .markdown svg.classDiagram .relationType,
+html.dark .markdown svg.classDiagram .relationType path
+{
+  stroke: #e2e8f0 !important;
+}
+
+/* Mermaid sequence diagram: improve line/arrow contrast in dark mode */
+html.dark .markdown svg .messageLine,
+html.dark .markdown svg .messageText,
+html.dark .markdown svg .loop rect,
+html.dark .markdown svg .labelBox,
+html.dark .markdown svg .labelText,
+html.dark .markdown svg .noteText,
+html.dark .markdown svg .activation0,
+html.dark .markdown svg .activation1,
+html.dark .markdown svg .activation2,
+html.dark .markdown svg .messageLine0,
+html.dark .markdown svg .messageLine1,
+html.dark .markdown svg .messageLine2,
+html.dark .markdown svg marker path,
+html.dark .markdown svg .marker path,
+html.dark .markdown svg .arrowMarkerPath {
+  stroke: #e2e8f0 !important;
+  fill: #e2e8f0 !important;
+}
+
+html.dark .markdown svg .actor-line,
+html.dark .markdown svg .actor{
+  stroke: #dd94f9 !important;
+}
+
+html.dark .markdown .pieTitleText {
+  fill: #e2e8f0 !important;
+}
+
+html.dark .markdown .pieCircle {
+  opacity: 1 !important;
+}
+
+html.dark .markdown .legend text {
+  fill: #e2e8f0 !important;
+}
