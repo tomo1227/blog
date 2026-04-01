@@ -52,6 +52,6 @@
     "hono": "^4.12.3",
     "honox": "^0.1.54",
     "mermaid": "^11.13.0",
-    "playwright": "^1.58.2"
+    "playwright": "^1.59.0"
   }
 }
