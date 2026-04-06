@@ -49,7 +49,7 @@
     "wrangler": "^4.79.0"
   },
   "dependencies": {
-    "hono": "^4.12.3",
+    "hono": "^4.12.10",
     "honox": "^0.1.54",
     "mermaid": "^11.13.0",
     "playwright": "^1.59.1"
