@@ -2,7 +2,7 @@
   "name": "mdx",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "bunx playwright install chromium && vite",
     "build": "bunx playwright install chromium && vite build --mode client && vite build",
     "preview": "wrangler pages dev ./dist",
     "deploy": "wrangler pages deploy",

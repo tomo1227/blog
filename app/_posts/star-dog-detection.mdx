@@ -1,0 +1,397 @@
+---
+title: DoGフィルタによる星検出
+createdDate: 2026-07-06T11:31:10.328Z
+description: DoGフィルタを用いた星検出アルゴリズムについて解説します。
+tags:
+  - algorithms
+  - star
+  - rust
+iconUrl: https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Shooting%20star/Flat/shooting_star_flat.svg
+---
+
+## 星検出とは
+
+画像内の明るい点を特定し、それらを星として認識するプロセスを含みます。
+この記事ではDoG(Difference of Gaussian)フィルタを用いた星検出アルゴリズムについて解説します。
+
+## DoGフィルタ
+
+DoG(Difference of Gaussian)は2つのわずかに異なる標準偏差を持つガウシアンフィルタを用いて、画像のスケール空間での点状構造を検出する手法。LoGと似ているが、計算コストが低く、スケール空間での点状構造の検出に適しています。簡単にいうとぼかしの違いを取ることで「小さな明るい点」を強調する方法で、、星検出においては、星のような小さな明るい点を背景から際立たせるのに有効です。
+
+## ガウス関数（Gaussian function）
+
+ガウス関数とは、最も基本となる正規分布の形状を持つ曲線を表します。2次元のガウス関数は以下の式で表されます。
+
+```math
+G(x) = C \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)
+```
+
+<Note>
+正規分布関数と知られる以下の式は、$\int_{-\infty}^{\infty} G(x) dx = 1$ になるよう振幅を固定した確率密度関数で、ガウス関数のひとつです。
+
+```math
+G(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)
+```
+
+</Note>
+
+## ガウスフィルタ(Gaussian filter)
+
+ガウスフィルタはガウシアンぼかしとも呼ばれ、画像の各ピクセルを周辺ピクセルの重み付き平均に置き換える処理。ガウス関数に従って計算された重み（カーネル）を周囲のピクセルに適用し、中心からの距離が近いピクセルの値をより強く反映させます。これにより、画像のノイズを減らし、滑らかなぼかし効果を得ることなどができます。ただし、ガウスフィルタはエッジをぼかすため、シャープな輪郭を保ちたい場合、メディアンフィルタなどの他のフィルタと組み合わせることが推奨されます。
+
+## DoGの星検出におけるアルゴリズム
+
+画像に対して2種類のぼかしをかけます：
+
+* 小さいぼかし（σ_small）
+* 大きいぼかし（σ_large）
+
+そして差を取ります
+
+```math
+DoG = G(σ_small) - G(σ_large)
+```
+
+σが小さい → ほぼ元画像
+σが大きい → ぼやけて大きな構造だけ残る
+
+* 星（小さい明るい点）
+  * 小ぼかしでは残る
+  * 大ぼかしでは消える
+  * → 差が大きい（＝強く出る）
+* 背景（広い構造）
+  * 両方で似たようにぼける
+  * → 差が小さい（＝消える）
+
+DoGはLoGの近似となっています。
+
+```math
+LoG = \nabla^2 (Gaussian\space blur) \approx DoG
+```
+
+## RustでのDoGフィルタ実装例
+
+```math
+G(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{x^2}{2\sigma^2}\right)
+```
+
+このとき、以下のようになっている。
+
+* x：中心からの距離
+* σ：広がり（ぼけの強さ）
+* exp(⋅)：自然指数関数（eのべき乗）
+
+### ガウシアンカーネル
+
+カーネル関数とは、データの類似度を測るための関数で、ここではガウシアンカーネルを用いて画像の各ピクセルを周囲のピクセルの重み付き平均に置き換えるための重み（カーネル）として使用する。
+ガウシアンカーネルのことをRBF kernelとも呼ぶ。データ同士の距離が近いほど値が大きくなり類似度が高いことを示す。
+
+カーネル半径
+
+```math
+r = \max\left(1,\left\lceil 3\sigma \right\rceil\right)
+```
+
+ガウス関数
+
+```math
+g(i)=\exp\left(-\frac{i^2}{2\sigma^2}\right),
+\qquad -r \le i \le r
+```
+
+正規化係数
+
+```math
+S=\sum_{j=-r}^{r} g(j)
+```
+
+正規化後のガウシアンカーネル
+
+```math
+K(i)=\frac{g(i)}{S}
+=
+\frac{\exp\left(-\frac{i^2}{2\sigma^2}\right)}
+{\sum_{j=-r}^{r}\exp\left(-\frac{j^2}{2\sigma^2}\right)}
+```
+
+ここで、正規化後のガウシアンカーネルは、以下を満たします。
+
+```math
+\sum_{i=-r}^{r}K(i)=1
+```
+
+```rust title="1次元カーネルの生成"
+fn gaussian_kernel_1d(sigma: f32) -> Vec<f32> {
+    let radius = (sigma * 3.0).ceil().max(1.0) as i32;
+    let mut kernel = Vec::with_capacity((radius * 2 + 1) as usize);
+    let mut norm = 0.0_f32;
+
+    for i in -radius..=radius {
+        let x = i as f32;
+        // ガウス関数
+        let v = (-x * x / (2.0 * sigma * sigma)).exp();
+        kernel.push(v);
+        norm += v;
+    }
+
+    for k in &mut kernel {
+        *k /= norm;
+    }
+
+    kernel
+}
+```
+
+### ガウスフィルタの実装
+
+2次元ガウシアンは $G(x,y)=Gx(x)Gy(y)$という性質があります。そのため、1次元ガウシアンカーネルを縦と横に1次元畳み込みで計算することで計算量を $O(N^2)$ から $O(2N)$ に削減することができます。
+$\sigma = 0$の時は何もしません。
+
+```rust title="ガウスフィルタの実装"
+fn gaussian_blur(img: &GrayImageF32, sigma: f32) -> Vec<f32> {
+    if sigma <= 0.0 {
+        return img.data.clone();
+    }
+
+    let kernel = gaussian_kernel_1d(sigma);
+    let radius = (kernel.len() / 2) as i32;
+
+    let mut temp = vec![0.0_f32; img.data.len()];
+    let mut out = vec![0.0_f32; img.data.len()];
+
+    for y in 0..img.height {
+        for x in 0..img.width {
+            let mut sum = 0.0_f32;
+            for (k_idx, k) in kernel.iter().enumerate() {
+                let dx = k_idx as i32 - radius;
+                sum += img.get_clamped(x as i32 + dx, y as i32) * k;
+            }
+            temp[(y * img.width + x) as usize] = sum;
+        }
+    }
+
+    for y in 0..img.height {
+        for x in 0..img.width {
+            let mut sum = 0.0_f32;
+            for (k_idx, k) in kernel.iter().enumerate() {
+                let dy = k_idx as i32 - radius;
+                let sy = (y as i32 + dy).clamp(0, img.height as i32 - 1) as u32;
+                sum += temp[(sy * img.width + x) as usize] * k;
+            }
+            out[(y * img.width + x) as usize] = sum;
+        }
+    }
+
+    out
+}
+```
+
+ここで`get_clamped`関数は、画像の境界を超えた場合に端のピクセル値を返すようにしています。
+
+```rust
+fn get_clamped(&self, x: i32, y: i32) -> f32 {
+    let cx = x.clamp(0, self.width as i32 - 1) as u32;
+    let cy = y.clamp(0, self.height as i32 - 1) as u32;
+    self.data[self.index(cx, cy)]
+}
+```
+
+## DoGによる星検出
+
+以下を満たす画素を星候補として検出する。
+
+1. DoGが閾値 $\theta$ 以上である (だいたい $0.01 \lt \theta \lt 0.10 $ )  
+1. SNRが $\tau$ 以上である
+1. 線状エッジ上の反応を除去
+1. 8近傍平均より十分に突出している
+1. 8近傍で局所最大である
+
+### DoGが閾値 $\theta$ 以上である
+
+閾値を上げると検出数は減るが、誤検出は減りやすいです。
+だいたい $0.01 \lt \theta \lt 0.10 $ に設定するのが良いです。
+
+### SNRが$\tau$以上である
+
+SNR(Signal-to-Noise Ratio)とは、信号とノイズの比率を示す指標であり、局所標準偏差で正規化した値。
+
+```math
+\mathrm{SNR}(x,y)=\frac{D(x,y)}{\sigma_{\mathrm{loc}}(x,y)+\varepsilon}\ge\tau_{\mathrm{SNR}}
+```
+
+### 線状エッジ上の反応を除去
+
+線状エッジ上の反応を除去し、角・点状ピークを優先します。線状エッジ上の反応は、DoGの値が大きくても、星ではない可能性が高いためです。
+
+まず、DoGの2次微分(Hessian)を近似します。
+DoGを $D(x,y)$ とすると、中心 $(x,y)$ で次を計算します。
+
+```math
+D_{xx} \approx D(x+1,y)-2D(x,y)+D(x-1,y)
+```
+
+```math
+D_{yy} \approx D(x,y+1)-2D(x,y)+D(x,y-1)
+```
+
+```math
+D_{xy} \approx \frac{D(x+1,y+1)-D(x+1,y-1)-D(x-1,y+1)+D(x-1,y-1)}{4}
+```
+
+これで Hessian 行列を作ります。
+
+```math
+H=
+\begin{bmatrix}
+D_{xx} & D_{xy}\\
+D_{xy} & D_{yy}
+\end{bmatrix}
+```
+
+ここで$\det(H)\le 0$（実装では微小値以下）の場合は鞍点や不安定な形状で、点状ピークらしくないため、除外します。
+
+```math
+\mathrm{tr}(H)=D_{xx}+D_{yy}
+```
+
+```math
+\det(H)=D_{xx}D_{yy}-D_{xy}^2
+```
+
+エッジ判定スコアRを以下のように定義します。
+
+```math
+R=\frac{\mathrm{tr}(H)^2}{\det(H)}
+```
+
+固有値を $\lambda_1,\lambda_2$ とすると
+
+```math
+R=\frac{(\lambda_1+\lambda_2)^2}{\lambda_1\lambda_2}
+```
+
+固有値比を $r=|\lambda_1/\lambda_2| \ (r\ge1)$ とおくと
+
+```math
+R=\frac{(r+1)^2}{r}
+```
+
+ここで、Rの値は以下のように解釈できます。
+
+* $R$ が大きい: 一方向だけ曲率が強い・$r$ が大きい・
+* $R$ が小さい: 2方向の曲率が近い・$r \approx 1$・点状ピーク
+
+閾値比を $r_{\max}$ として以下を満たせば、点状ピークとして通過させます。
+
+```math
+R \le \frac{(r_{\max}+1)^2}{r_{\max}}
+```
+
+ゆえに、Rの値が大きい場合は線状エッジの可能性が高く、除外されやすいです。逆に、Rの値が小さい場合は点状ピークの可能性が高く、通過しやすいです。
+
+### 8近傍平均より十分に突出している
+
+8近傍平均との差（prominence）が小さい弱いピークを除外します。
+
+画素座標を $(x,y)$、DoG画像を $D(\cdot,\cdot)$ とします。  
+
+まず、8近傍集合を以下のように定義する。
+
+```math
+\mathcal{N}_8(x,y)=\{(i,j)\mid i\in\{x-1,x,x+1\},\ j\in\{y-1,y,y+1\},\ (i,j)\neq(x,y)\}
+```
+
+ここで、prominenceは以下の式で表せます。
+
+```math
+P(x,y)=D(x,y)-\frac{1}{8}\sum_{(i,j)\in\mathcal{N}_8(x,y)}D(i,j)
+```
+
+* $P(x,y)>0$ : 中心が周囲平均より高い（山になっている）
+* $P(x,y)\approx 0$ : 周囲とほぼ同じ高さ
+* $P(x,y)<0$ : 中心が周囲平均より低い（谷になっている）
+
+したがって、突出係数を $\alpha$、閾値を $\varepsilon$ として、以下の条件を満たす場合にのみ、星候補として採用します。
+
+```math
+P(x,y) \ge \alpha \cdot \varepsilon
+```
+
+### 8近傍で局所最大である
+
+画素座標を $(x,y)$、DoG画像を $D(\cdot,\cdot)$ とします。  
+
+まず、8近傍集合を以下のように定義します。
+
+```math
+\mathcal{N}_8(x,y)=\{(i,j)\mid i\in\{x-1,x,x+1\},\ j\in\{y-1,y,y+1\},\ (i,j)\neq(x,y)\}
+```
+
+以下の条件を満たす場合にのみ、中心が厳密な局所最大となり、星候補として採用します。
+
+$$
+\forall (i,j)\in\mathcal{N}_8(x,y),\quad D(i,j) < D(x,y)
+$$
+
+## 誤検知の除外
+
+### NMSの除外
+
+NMS(Non-Maximum Suppression)とは非極大抑制のことで、局所的に最大値でない候補を除外する手法です。ここでは、星候補の中で、候補同士が近すぎる場合は応答の強い方を残すようにします。これにより、同じ星が複数の候補として検出されることを防ぎます。
+
+候補点を $c_i = (x_i, y_i, r_i)$とし、最小距離を$d_{\min}$とします。採用集合を $S$ とすると、$c_{\pi(k)}$ を見て、次を満たすときだけ採用します。
+
+```math
+\forall s \in S, \quad
+\|p(c_{\pi(k)})-p(s)\|_2^2 > d_{\min}^2, \quad p(c_i)=(x_i,y_i)
+```
+
+すなわち、どの採用済み点からも距離が $d_{\min}$ より大きい場合のみSに追加し、それ以外は除外します。
+
+```math
+S \leftarrow S \cup \{c_{\pi(k)}\}
+```
+
+### 孤立点の除外
+
+孤立点を誤検知とみなし除外します。周囲に他の星候補が存在しない場合は、ノイズや誤検知の可能性が高いです。
+
+2点 $d_i, d_j$ のユークリッド距離二乗は以下のようになります。
+
+```math
+\Delta_{ij}^2=(x_i-x_j)^2+(y_i-y_j)^2
+```
+
+$d_j$ が $d_i$ の近傍である条件は、半径を $R$とすると、
+
+```math
+\Delta_{ij}^2 \le R^2,\quad i\neq j
+```
+
+ゆえに、各点 $d_i$ の近傍数は以下のように書けます。
+
+```math
+n_i=\sum_{\substack{j=1\\j\neq i}}^{N}\mathbf{1}\!\left(\Delta_{ij}^2\le R^2\right)
+```
+
+最低必要近傍数を $K$とすると、以下を満たすもの以外は除外できます。
+
+```math
+n_i \ge K
+```
+
+## 実際の検出結果
+
+実際に以下の画像を用いて、DoGフィルタを用いた星検出を行います。
+
+![alt text](../../public/static/assets/img/posts/star-dog-detection/img-1.jpg)
+
+出力結果は以下のようになりました。黄色の+マークが検出された星の位置を示しています。
+
+![alt text](../../public/static/assets/img/posts/star-dog-detection/img.jpg)
+
+## 参考文献
+
+1. [【画像処理】空間フィルタリング_ラプラシアン/LoG/DoGフィルタ - Deliberate Learning](https://tech-deliberate-jiro.com/image-processing-edge2/)
+2. [画像処理の基礎 ― OpenCV による基本的な例 ―](https://www.ic.is.tohoku.ac.jp/~swk/lecture/ic2012/kagami_ic20120619.pdf)
+3. [ガウス過程回帰〜カーネルについてわかりやすく説明〜](https://boritaso-blog.com/gaussian_process_regression_kernel/)
