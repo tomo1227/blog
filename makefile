@@ -12,11 +12,15 @@ update:
 
 .PHONY: run
 run:
-	bunx --bun vite
+	bun run dev
 
 .PHONY: build
 build:
 	bun run build
+
+.PHONY: post
+post:
+	bun run post
 
 .PHONY: up
 up:

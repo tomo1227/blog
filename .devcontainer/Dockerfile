@@ -10,6 +10,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
     && apt update \
     && apt install -y sudo bash-completion wget make curl openssh-client locales vim xdg-utils unzip \
+    libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libasound2 libcairo2 libpango-1.0-0 libxdamage1 libatspi2.0-0 \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 

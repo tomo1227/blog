@@ -213,6 +213,17 @@ html.dark .markdown .warn svg path {
   overflow-x: auto;
 }
 
+/* 数式で横にスクロールできるようにする */
+.markdown .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.markdown .katex-display > .katex {
+  min-width: max-content;
+}
+
 
 .markdown table {
   @apply text-sm border-gray-600 w-full border-collapse overflow-hidden rounded-xs max-md:text-xs;
