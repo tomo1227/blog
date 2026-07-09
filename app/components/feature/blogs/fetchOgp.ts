@@ -17,9 +17,17 @@ export const fetchOgp = async (url: string) => {
     url: "",
   };
   try {
-    const dom = await JSDOM.fromURL(url);
+    const response = await fetch(url, {
+      headers: {
+        "user-agent": "Mozilla/5.0 (compatible; OGPFetcher/1.0)",
+      },
+    });
+    if (!response.ok) return;
+    const html = await response.text();
+    const dom = new JSDOM(html);
     const host = new URL(url).host;
     ogp.favicon = `https://www.google.com/s2/favicons?domain=${host}&sz=20`;
+    ogp.url = url;
     const metas = dom.window.document.getElementsByTagName("meta");
 
     Array.from(metas).forEach((v) => {
@@ -32,8 +40,8 @@ export const fetchOgp = async (url: string) => {
     });
 
     return ogp;
-  } catch (e) {
-    console.error(e);
+  } catch {
+    return;
   }
 };
 
@@ -42,7 +50,6 @@ function isOgpKey(key: any): key is OgpKey {
     key === "title" ||
     key === "image" ||
     key === "description" ||
-    key === "url" ||
-    key === "alt"
+    key === "url"
   );
 }
