@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "bunx playwright install chromium && vite",
     "build": "bunx playwright install chromium && vite build --mode client && vite build",
-    "preview": "wrangler pages dev ./dist",
-    "deploy": "wrangler pages deploy",
+    "preview": "wrangler dev --assets=./dist",
+    "deploy": "wrangler deploy --assets=./dist",
     "post": "bun run scripts/createPost.ts"
   },
   "private": true,

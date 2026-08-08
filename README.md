@@ -48,6 +48,6 @@ function markResourceTiming(timingInfo, originalURL, initiatorType, globalThis2,
 ```
 
 ```shell
-bun --bunx login
-bun --bunx wrangler pages deploy
+bun --bunx wrangler login
+bun --bunx wrangler deploy
 ```
