@@ -6,5 +6,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: Kesin11/actions-timeline@v3.1.1
+      - uses: Kesin11/actions-timeline@v3.2.0
       - uses: actions/checkout@v7
