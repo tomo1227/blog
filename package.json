@@ -21,7 +21,7 @@
     "@types/jsdom": "^28.0.3",
     "@types/prompts": "^2.4.9",
     "autoprefixer": "^10.5.3",
-    "budoux": "^0.8.4",
+    "budoux": "^0.9.1",
     "contentlayer": "^0.3.4",
     "feed": "^6.0.0",
     "install": "^0.13.0",
