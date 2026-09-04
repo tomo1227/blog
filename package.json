@@ -40,7 +40,7 @@
     "remark-mdx-frontmatter": "^5.2.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "shiki": "^4.0.1",
+    "shiki": "^4.4.3",
     "tailwindcss": "^4.1.18",
     "tocbot": "^4.36.4",
     "vite": "^8.0.3",
