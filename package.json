@@ -26,7 +26,7 @@
     "feed": "^6.0.0",
     "install": "^0.13.0",
     "jsdom": "^30.0.1",
-    "postcss": "^8.5.26",
+    "postcss": "^8.5.28",
     "prompts": "^2.4.2",
     "rehype-highlight": "^7.0.2",
     "rehype-katex": "^7.0.1",
